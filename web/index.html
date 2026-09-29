@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Beat of Bollywood</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,400;1,700&family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Interactive Visual Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+
+  <style>
+    :root {
+      --cinema-pink: #e05780;
+      --cinema-deep-pink: #c93b68;
+      --cinema-soft-pink: #ff8fa3;
+      --cinema-blush: #fff2f5;
+      --film-gold: #c59b27;
+      --vintage-paper: #f4eedb;
+      --ink-black: #181514;
+      --ink-charcoal: #3d3735;
+      --border-subtle: #dcd4be;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: var(--vintage-paper);
+      color: var(--ink-black);
+      line-height: 1.85;
+      font-size: 20px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(#d3c7a6 1.5px, transparent 1.5px),
+        radial-gradient(#d3c7a6 1.5px, #f4eedb 1.5px);
+      background-size: 26px 26px;
+      background-position: 0 0, 13px 13px;
+    }
+
+    /* Filmstrip perforations */
+    .film-strip-border {
+      height: 24px;
+      background: repeating-linear-gradient(
+        90deg,
+        #1c1817 0px,
+        #1c1817 22px,
+        transparent 22px,
+        transparent 34px
+      );
+      border-top: 3px solid #111;
+      border-bottom: 3px solid #111;
+    }
+
+    /* Header Presentation */
+    header {
+      padding: 5rem 2rem 3.8rem 2rem;
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .censor-stamp {
+      display: inline-block !important;
+      border: 2px solid #b8332a !important;
+      color: #b8332a !important;
+      padding: 0.45rem 1.6rem !important;
+      font-family: "Space Mono", monospace !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.18em !important;
+      font-size: 0.95rem !important;
+      margin-bottom: 2rem !important;
+      background: #fffcf7 !important;
+      transform: rotate(-3deg) !important;
+      box-shadow: 3px 3px 0px rgba(184, 51, 42, 0.2) !important;
+    }
+
+    h1 {
+      font-family: "Rozha One", serif;
+      font-size: clamp(3.2rem, 6.2vw, 5.4rem);
+      line-height: 1.15;
+      color: var(--ink-black);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 span.accent {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--cinema-deep-pink);
+      font-weight: 400;
+    }
+
+    .header-intro-p {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .article-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .act-section {
+      margin-bottom: 6rem;
+    }
+
+    .visual-wrapper {
+      width: 100%;
+      height: 540px;
+      margin: 0 auto 2.2rem auto;
+      position: relative;
+      background: rgba(255, 253, 248, 0.85);
+      border: 2px solid #dcd3be;
+      border-radius: 8px;
+      padding: 1.4rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .prose-block {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    /* REQUIRED HIERARCHY: ACT TAG BIGGER THAN SUBHEADING */
+    /* Chic & Elegant Editorial Act Header */
+    /* Chic, Minimalist & Uncluttered Act Title */
+    .act-tag {
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-size: 2.25rem !important;
+      font-weight: 600 !important;
+      font-style: normal !important;
+      letter-spacing: -0.01em !important;
+      color: var(--cinema-deep-pink, #c93b68) !important;
+      line-height: 1.25 !important;
+      margin-bottom: 0.5rem !important;
+      display: block !important;
+      text-transform: capitalize !important;
+      border-bottom: none !important;
+      text-decoration: none !important;
+    }
+
+    .prose-block h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--ink-black);
+      margin-bottom: 1.1rem;
+    }
+
+    .prose-block p {
+      color: var(--ink-charcoal);
+      font-size: 1.25rem;
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+
+    .stat-pill {
+      display: inline-block;
+      margin-top: 0.6rem;
+      background: #ffe5ec;
+      border: 1.5px solid #fbb1bd;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cinema-deep-pink);
+      font-family: "Space Mono", monospace;
+    }
+
+    .cassette-deck-card {
+      background: #fffdf8;
+      border: 2px solid #181514;
+      border-radius: 14px;
+      padding: 2.4rem 2.4rem 2rem 2.4rem;
+      box-shadow: 6px 6px 0px #181514;
+      max-width: 900px;
+      margin: 1.5rem auto 2.4rem auto;
+      position: relative;
+    }
+
+    .tape-visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.6rem;
+      border-bottom: 2px dashed #e2dac9;
+      padding-bottom: 1.1rem;
+    }
+
+    .tape-track-container {
+      position: relative !important;
+      padding: 25px 20px 15px 20px !important;
+      margin: 2.2rem 0 1.6rem 0 !important;
+    }
+
+    .tape-magnetic-ribbon {
+      position: absolute !important;
+      top: 48px !important;
+      left: 55px !important;
+      right: 55px !important;
+      height: 9px !important;
+      background: #ece4d4 !important;
+      border: 1.5px solid #181514 !important;
+      border-radius: 4px !important;
+      z-index: 1 !important;
+    }
+
+    .tape-ribbon-fill {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      height: 100% !important;
+      background: linear-gradient(90deg, #f7a8b8, #e05780) !important;
+      border-radius: 3px !important;
+      transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+
+    .era-node-row {
+      display: flex !important;
+      justify-content: space-between !important;
+      position: relative !important;
+      z-index: 5 !important;
+    }
+
+    .era-tape-node {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      user-select: none !important;
+      transition: transform 0.2s ease !important;
+    }
+
+    .era-tape-node:hover {
+      transform: translateY(-2px) !important;
+    }
+
+    .tape-spool-disc {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 50% !important;
+      background: #ffffff !important;
+      border: 2.5px solid #181514 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 2px 2px 0px #181514 !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .tape-spool-disc::after {
+      content: "" !important;
+      width: 15px !important;
+      height: 15px !important;
+      border-radius: 50% !important;
+      background: #181514 !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .era-tape-node.active .tape-spool-disc,
+    .era-tape-node:hover .tape-spool-disc {
+      background: #e05780 !important;
+      border-color: #181514 !important;
+      box-shadow: 0 0 0 4px rgba(224, 87, 128, 0.25), 3px 3px 0px #181514 !important;
+    }
+
+    .era-tape-node.active .tape-spool-disc::after,
+    .era-tape-node:hover .tape-spool-disc::after {
+      background: #ffffff !important;
+    }
+
+    .era-node-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #181514;
+      margin-top: 10px;
+    }
+
+    .era-duration-pill {
+      font-family: 'Space Mono', monospace !important;
+      font-size: 0.88rem !important;
+      font-weight: 800 !important;
+      padding: 4px 9px !important;
+      border-radius: 5px !important;
+      background: #f4eedb !important;
+      border: 1.5px solid #181514 !important;
+      margin-top: 8px !important;
+      color: #181514 !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .era-tape-node.active .era-duration-pill,
+    .era-tape-node:hover .era-duration-pill {
+      background: #e05780 !important;
+      color: #ffffff !important;
+      border-color: #181514 !important;
+    }
+
+    .tape-compare-box {
+      margin-top: 2rem;
+      background: #faf6ed;
+      border: 2px solid #181514;
+      border-radius: 10px;
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 4px 4px 0px #181514;
+    }
+
+    .tape-length-meter {
+      font-family: 'Space Mono', monospace;
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--cinema-deep-pink);
+      line-height: 1;
+      min-width: 155px;
+      text-align: center;
+      border-right: 2px dashed #d5cbba;
+      padding-right: 18px;
+    }
+
+    .tape-story-desc {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: #383230;
+      margin: 0;
+    }
+
+    /* Act II: Lexical Prominence Elements */
+    .timeline-word {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+      user-select: none;
+      z-index: 5;
+    }
+    .timeline-word:hover {
+      transform: translate(-50%, -50%) scale(1.18);
+      z-index: 20;
+    }
+    .word-main {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .timeline-word.classical .word-main { color: #0f4c5c; }
+    .timeline-word.modern .word-main { color: #e05780; }
+    .word-years {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6a6054;
+      margin-left: 5px;
+    }
+    .word-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin: 4px auto 0 auto;
+      opacity: 0.55;
+    }
+    .classical .word-dot { background: #0f4c5c; }
+    .modern .word-dot { background: #e05780; }
+
+    .word-tooltip {
+      position: fixed;
+      min-width: 180px;
+      padding: 10px 14px;
+      background: #181514;
+      color: #f8f1df;
+      border-radius: 5px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 9999;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .word-tooltip.show { opacity: 1; transform: translateY(0); }
+    .word-tooltip strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 3px; }
+    .word-tooltip.classical strong { color: #8ec6d2; }
+    .word-tooltip.modern strong { color: #f28aa8; }
+
+    /* Act IV: Singer Cutout Columns */
+    .pudding-podiums {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1.8rem;
+      width: 100%;
+      height: 100%;
+      padding-bottom: 1.5rem;
+    }
+
+    .podium-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 15%;
+      text-align: center;
+      position: relative;
+    }
+
+    .podium-stat-badge {
+      font-family: "Caveat", cursive, sans-serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--cinema-deep-pink);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .real-head-cutout {
+      width: 135px;
+      height: 155px;
+      object-fit: contain;
+      object-position: bottom center;
+      margin-bottom: -16px;
+      z-index: 3;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.25));
+      display: block;
+    }
+
+    .podium-box {
+      width: 100%;
+      background: #eee6d0;
+      border: 3px solid var(--ink-black);
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0.8rem 0.2rem;
+      box-shadow: 4px 4px 0px var(--ink-black);
+    }
+
+    .podium-era {
+      font-family: "Space Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #6d6459;
+    }
+
+    .podium-name {
+      font-family: "Playfair Display", serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--ink-black);
+      line-height: 1.2;
+      margin-top: 0.35rem;
+    }
+
+    .dt-storyline-section {
+      position: relative;
+      width: 100%;
+      max-width: 1060px;
+      margin: 2.2rem auto 2.8rem auto;
+      padding: 20px 0 60px 0;
+    }
+
+    .dt-spine {
+      position: absolute;
+      left: 50%;
+      top: 30px;
+      bottom: 50px;
+      width: 3px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #181514 0px,
+        #181514 12px,
+        transparent 12px,
+        transparent 24px
+      );
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .dt-era-stage {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      min-height: 250px !important;
+      margin-bottom: 2.5rem !important;
+      position: relative !important;
+    }
+
+    .dt-dialogue-col, .dt-media-col {
+      flex: 1 1 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+
+    .dt-era-stage:nth-of-type(odd) { flex-direction: row !important; }
+    .dt-era-stage:nth-of-type(odd) .dt-dialogue-col {
+      justify-content: flex-end !important;
+      padding-right: 85px !important;
+      padding-left: 0 !important;
+    }
+    .dt-era-stage:nth-of-type(odd) .dt-media-col {
+      justify-content: flex-start !important;
+      padding-left: 85px !important;
+      padding-right: 0 !important;
+    }
+
+    .dt-era-stage:nth-of-type(even) { flex-direction: row-reverse !important; }
+    .dt-era-stage:nth-of-type(even) .dt-dialogue-col {
+      justify-content: flex-start !important;
+      padding-left: 85px !important;
+      padding-right: 0 !important;
+    }
+    .dt-era-stage:nth-of-type(even) .dt-media-col {
+      justify-content: flex-end !important;
+      padding-right: 85px !important;
+      padding-left: 0 !important;
+    }
+
+    .dt-node-anchor {
+      position: absolute !important;
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 20 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      pointer-events: none !important;
+    }
+
+    .dt-node-pin {
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 50%;
+      background: #f4eedb;
+      border: 4px solid #181514;
+      box-shadow: 0 0 0 5px #f4eedb;
+    }
+
+    .dt-era-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.15rem !important;
+      font-weight: 800;
+      color: #181514;
+      margin-top: 8px;
+      background: #f4eedb;
+      padding: 4px 14px;
+      border: 2px solid #181514;
+      box-shadow: 3px 3px 0px #181514;
+      white-space: nowrap;
+    }
+
+    .dt-bubble {
+      width: 100% !important;
+      max-width: 410px !important;
+      position: relative !important;
+      background: #ffffff !important;
+      border: 2px solid #181514 !important;
+      border-radius: 12px !important;
+      padding: 2.4rem 1.6rem 1.5rem 1.6rem !important;
+      box-shadow: 4px 4px 0px #181514 !important;
+      margin-top: 48px !important;
+    }
+
+    .dt-era-stage:nth-of-type(odd) .dt-bubble {
+      box-shadow: 5px 5px 0px #b98926 !important;
+    }
+    .dt-era-stage:nth-of-type(even) .dt-bubble {
+      box-shadow: 5px 5px 0px #e05780 !important;
+    }
+
+    .dt-avatar-tag {
+      position: absolute !important;
+      top: -74px !important;
+      left: 14px !important;
+      display: inline-flex !important;
+      align-items: flex-end !important;
+      gap: 8px !important;
+      pointer-events: none !important;
+      z-index: 10 !important;
+    }
+
+    .dt-char-avatar {
+      width: 110px !important;
+      height: 110px !important;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.28)) !important;
+    }
+
+    .dt-char-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .dt-avatar-name {
+      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+      padding: 3px 12px !important;
+      margin-bottom: 22px !important;
+      background: #f4eedb !important;
+      border: 1.5px solid #181514 !important;
+      box-shadow: 2px 2px 0px #181514 !important;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .dt-bubble p {
+      font-family: 'Playfair Display', serif !important;
+      font-size: 1.15rem !important;
+      line-height: 1.7 !important;
+      color: #221e1d !important;
+      margin: 0 !important;
+    }
+
+    .dt-media-card {
+      width: 100% !important;
+      max-width: 350px !important;
+      padding: 0.95rem 1.15rem !important;
+      border: 2px solid #181514 !important;
+      border-radius: 10px;
+      box-shadow: 4px 4px 0px #181514 !important;
+      gap: 14px !important;
+      background: #faf7ee !important;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.25s ease !important;
+    }
+
+    .dt-media-card:hover {
+      box-shadow: 6px 6px 0px var(--cinema-pink) !important;
+      border-color: var(--cinema-pink) !important;
+      transform: translateY(-3px) scale(1.02) !important;
+    }
+
+    .dt-disc {
+      width: 48px !important;
+      height: 48px !important;
+      min-width: 48px !important;
+      border-radius: 50%;
+      background: #181514;
+      border: 2px solid #181514;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dt-disc::after {
+      content: "";
+      width: 15px !important;
+      height: 15px !important;
+      border-radius: 50%;
+      background: var(--film-gold);
+      border: 2px solid #181514;
+    }
+
+    .dt-era-stage.playing-track .dt-disc {
+      animation: dtSpinDisc 3.2s linear infinite;
+    }
+
+    @keyframes dtSpinDisc { 100% { transform: rotate(360deg); } }
+
+    .dt-track-meta strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem !important;
+      font-weight: 800;
+      color: #181514;
+      display: block;
+      line-height: 1.25;
+      margin-bottom: 3px;
+    }
+
+    .dt-track-meta small {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem !important;
+      color: #6a6157;
+      display: block;
+    }
+
+    .dt-play-btn {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      border-radius: 50%;
+      border: 2px solid #181514;
+      background: var(--film-gold);
+      color: #181514;
+      cursor: pointer;
+      font-size: 15px !important;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px #181514;
+    }
+
+    .soundwave-hero-box {
+      background: #191615;
+      border: 2px solid #181514;
+      border-radius: 12px;
+      padding: 1.3rem;
+      box-shadow: 5px 5px 0px #181514;
+      color: #faf6ed;
+      margin: 1.1rem 0;
+    }
+
+    .soundwave-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 1.1rem;
+      background: #ffffff;
+      padding: 14px 20px;
+      border: 2px solid #181514;
+      border-radius: 10px;
+    }
+
+    .soundwave-slider {
+      flex: 1;
+      accent-color: var(--cinema-pink);
+      cursor: pointer;
+      height: 7px;
+    }
+
+    .wave-badge-indicator {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1.5px solid #181514;
+      background: #f4eedb;
+      color: #181514;
+    }
+
+    .seat-theater-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      max-width: 470px;
+      margin: 1.6rem auto 1.1rem auto;
+      padding: 18px;
+      background: #faf6ed;
+      border: 2px solid #181514;
+      border-radius: 12px;
+      box-shadow: 4px 4px 0px #181514;
+    }
+
+    .theater-chair {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 5px;
+      border: 1.5px solid #181514;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease, filter 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .theater-chair:hover {
+      transform: scale(1.35) translateY(-3px);
+      z-index: 15;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      filter: brightness(1.1);
+    }
+
+    .seat-tooltip-badge {
+      min-height: 52px;
+      padding: 12px 18px;
+      background: #ffffff;
+      border: 2px solid #181514;
+      border-radius: 8px;
+      box-shadow: 3px 3px 0px #181514;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.98rem;
+      text-align: center;
+      margin-top: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Floating Musical Glyphs */
+    .bg-music-decor {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 85px;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      opacity: 0.25;
+      font-size: 1.8rem;
+      color: #b98926;
+      user-select: none;
+    }
+    .bg-music-left { left: 10px; }
+    .bg-music-right { right: 10px; }
+    @media (max-width: 1080px) { .bg-music-decor { display: none; } }
+    .music-glyph { display: block; animation: floatNote 8s ease-in-out infinite alternate; }
+    .music-glyph:nth-child(even) { color: var(--cinema-pink); }
+    .music-glyph:nth-child(3n) { color: #5b9279; }
+    @keyframes floatNote {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(6deg); }
+      100% { transform: translateY(6px) rotate(-6deg); }
+    }
+
+    /* Bobblehead + Glowing Pink Hover for Monkeys */
+    .monkey-item img {
+      transform-origin: bottom center;
+      transition: transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.28s ease !important;
+    }
+    .monkey-item:hover img {
+      transform: scale(1.12) translateY(-8px) !important;
+      filter: drop-shadow(0 14px 22px rgba(224, 87, 128, 0.75)) !important;
+    }
+
+    footer {
+      padding: 5.5rem 2rem 4.5rem 2rem;
+      text-align: center;
+      background: #181514;
+      color: #9c9189;
+      font-family: "Playfair Display", serif;
+      position: relative;
+      z-index: 2;
+    }
+
+    .film-strip-divider-top {
+      margin: 2.2rem 0 3.8rem 0 !important;
+    }
+  </style>
+  <style>
+    /* Elegant Editorial Styling for Hero Subtitle & Narrative Lead */
+    header .title,
+    header p.subtitle {
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-size: 1.55rem !important;
+      font-style: italic !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.015em !important;
+      line-height: 1.6 !important;
+      color: #38312b !important;
+      max-width: 740px !important;
+      margin: 0 auto 1.4rem auto !important;
+    }
+
+    header .header-intro-p {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+      font-size: 1.22rem !important;
+      font-weight: 400 !important;
+      line-height: 2.05 !important;
+      letter-spacing: 0.01em !important;
+      color: #4a4239 !important;
+      max-width: 720px !important;
+      margin: 0 auto !important;
+    }
+</style>
+</head>
+<body>
+
+  <!-- FLOATING SIDE MUSICAL SYMBOLS -->
+  <aside class="bg-music-decor bg-music-left" aria-hidden="true">
+    <span class="music-glyph">𝄞</span>
+    <span class="music-glyph">♫</span>
+    <span class="music-glyph">♩</span>
+    <span class="music-glyph">♬</span>
+    <span class="music-glyph">♪</span>
+    <span class="music-glyph">𝄢</span>
+  </aside>
+
+  <aside class="bg-music-decor bg-music-right" aria-hidden="true">
+    <span class="music-glyph">♪</span>
+    <span class="music-glyph">♬</span>
+    <span class="music-glyph">𝄞</span>
+    <span class="music-glyph">♫</span>
+    <span class="music-glyph">𝄢</span>
+    <span class="music-glyph">♩</span>
+  </aside>
+
+  <div class="film-strip-border"></div>
+
+  <!-- CLEAN HERO HEADER -->
+  <header>
+    <div class="censor-stamp">CBFC • EMPIRICAL MUSIC INQUIRY</div>
+    <h1>The Beat of <span class="accent">Bollywood</span></h1>
+    <p class="title" style="font-size: 1.55rem; line-height: 1.6; margin-bottom: 1.3rem;">
+      From 60-piece acoustic orchestras to 15-second algorithmic hooks: 70 years of Hindi cinema soundtracks.
+    </p>
+    <p class="header-intro-p" style="font-size: 1.25rem; line-height: 2.0;">
+      Hindi film songs have always tracked how we love, grieve, and celebrate. We looked through 70 years of music to see what quietly changed, how patient melodies grew shorter, classical verses made way for pop slang, and why our favorite tracks sound so different today.
+    </p>
+  </header>
+
+  <div class="film-strip-border film-strip-divider-top"></div>
+
+  <div class="article-container">
+
+    <!-- ACT I: DURATION COLLAPSE (CASSETTE RIBBON DECK) -->
+    <section class="act-section" id="act-1-duration">
+      <div class="cassette-deck-card" id="act1-creative-deck">
+        <div class="tape-visual-header">
+          <div>
+            <span style="font-family:'Space Mono',monospace; background:#e05780; color:#fff; border:1.5px solid #181514; font-size:0.85rem; padding:4px 12px; border-radius:4px; font-weight:800; display:inline-block; margin-bottom: 6px;">METRIC • TRACK LENGTH COLLAPSE</span>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.95rem; margin:8px 0 6px 0; color:#181514;">The Shrinking Melody Ribbon</h3>
+            <p style="font-size:1.15rem; color:#5b5249; margin:0; line-height:1.6;">
+              How the leisurely 5-minute epic was compressed into a 2.5-minute streaming loop. Click or hover any decade spool:
+            </p>
+          </div>
+          <div style="text-align:right; font-family:'Space Mono',monospace; font-size:0.95rem; color:#7a6f64;">
+            <strong style="color:#e05780; font-size:1.35rem; display:block;">-48% RUNTIME</strong>
+            <span>1970 ➔ 2025</span>
+          </div>
+        </div>
+
+        <!-- Interactive Tape Spool Ribbon -->
+        <div class="tape-track-container">
+          <div class="tape-magnetic-ribbon">
+            <div class="tape-ribbon-fill" id="tape-ribbon-bar" style="width: 36%;"></div>
+          </div>
+
+          <div class="era-node-row">
+            <div class="era-tape-node" data-index="0">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'60s</span>
+              <span class="era-duration-pill">5m 05s</span>
+            </div>
+            <div class="era-tape-node" data-index="1">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'70s</span>
+              <span class="era-duration-pill">5m 25s</span>
+            </div>
+            <div class="era-tape-node" data-index="2">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'80s</span>
+              <span class="era-duration-pill">5m 35s</span>
+            </div>
+            <div class="era-tape-node" data-index="3">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'90s</span>
+              <span class="era-duration-pill">5m 12s</span>
+            </div>
+            <div class="era-tape-node" data-index="4">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'00s</span>
+              <span class="era-duration-pill">4m 38s</span>
+            </div>
+            <div class="era-tape-node" data-index="5">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'10s</span>
+              <span class="era-duration-pill">3m 58s</span>
+            </div>
+            <div class="era-tape-node active" data-index="6">
+              <div class="tape-spool-disc"></div>
+              <span class="era-node-label">'20s</span>
+              <span class="era-duration-pill" style="background:#e05780; color:#fff;">2m 54s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Context Box -->
+        <div class="tape-compare-box">
+          <div class="tape-length-meter" id="deck-duration-val">2m 54s</div>
+          <div>
+            <strong id="deck-era-headline" style="font-family:'Playfair Display',serif; font-size:1.35rem; display:block; margin-bottom:6px; color:#181514;">
+              2020s: The 15-Second Hook &amp; Algorithmic Speed
+            </strong>
+            <p class="tape-story-desc" id="deck-era-desc">
+              Songs are engineered for algorithmic survival on Spotify and Reels. Extended acoustic intros are trimmed to four seconds; the main vocal hook lands immediately and the track wraps before minute three.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="prose-block">
+        <span class="act-tag">Act I: The Duration Collapse</span>
+        <h2>When Songs Were Melodic Epics</h2>
+        <p>In the 1990s and early 2000s, tracks were patient narrative structures. Composers crafted 45-second live orchestral preludes with multiple distinct poetic <em>antaras</em>. With modern streaming payout algorithms and short-form reels, track length collapsed by nearly half.</p>
+        <div class="stat-pill">Peak 1980s: 5.35m → 2020s: 2.54m (-48% Runtime Collapse)</div>
+      </div>
+    </section>
+
+    <!-- ACT II: WORDINGS -->
+    <section class="act-section" id="act-2-words">
+      <div class="visual-wrapper" style="height: 500px; position: relative; overflow: hidden;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+          <div>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 800; color: #181514;">When Words Ruled Bollywood</h3>
+          </div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700;">
+            <span style="color: #0f4c5c;">● Urdu Metaphors</span> &nbsp;|&nbsp; <span style="color: #e05780;">● Pop Slang</span>
+          </div>
+        </div>
+
+        <div id="timeline-swarm-container" style="position: relative; width: 100%; height: 370px; border-bottom: 2px solid #181514;">
+          <div style="position: absolute; left: 58%; top: 0; bottom: 0; border-left: 1.5px dashed #b5aa93;">
+            <span style="position: absolute; top: 6px; left: 6px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #8c8275;">2000s Shift</span>
+          </div>
+
+          <div class="timeline-word classical" style="left:20%; top:26%;" data-word="sanam" data-years="1955–2001 (693 uses)" data-era="classical">
+            <span class="word-main">sanam</span><span class="word-years">'55–'01</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:26%; top:58%;" data-word="ishq" data-years="1960–2002 (581 uses)" data-era="classical">
+            <span class="word-main">ishq</span><span class="word-years">'60–'02</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:34%; top:38%;" data-word="jaam" data-years="1960–1997 (228 uses)" data-era="classical">
+            <span class="word-main">jaam</span><span class="word-years">'60–'97</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:40%; top:72%;" data-word="zulf" data-years="1958–1992 (171 uses)" data-era="classical">
+            <span class="word-main">zulf</span><span class="word-years">'58–'92</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:48%; top:20%;" data-word="firaaq" data-years="Classic (Poetic rare)" data-era="classical">
+            <span class="word-main">firaaq</span><span class="word-years">Urdu</span><div class="word-dot"></div>
+          </div>
+
+          <div class="timeline-word modern" style="left:64%; top:38%;" data-word="baby" data-years="Post-2000s Western hook" data-era="modern">
+            <span class="word-main">baby</span><span class="word-years">Modern</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:72%; top:66%;" data-word="party" data-years="Club / Upbeat era" data-era="modern">
+            <span class="word-main">party</span><span class="word-years">Upbeat</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:80%; top:28%;" data-word="club" data-years="Streaming Hook" data-era="modern">
+            <span class="word-main">club</span><span class="word-years">Streaming</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:86%; top:54%;" data-word="nacho" data-years="Dance Track" data-era="modern">
+            <span class="word-main">nacho</span><span class="word-years">Dance</span><div class="word-dot"></div>
+          </div>
+
+          <div style="position: absolute; bottom: -30px; left: 0; right: 0; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.95rem; color: #181514;">
+            <span>1960</span><span>1970</span><span>1980</span><span>1990</span><span>2000</span><span>2010</span><span>2025</span>
+          </div>
+        </div>
+        <div id="word-tooltip" class="word-tooltip"></div>
+      </div>
+
+      <div class="prose-block">
+        <span class="act-tag">Act II: How Wordings Differ</span>
+        <h2>Farewell to Urdu Ghazals</h2>
+        <p>Analyzing 6,670+ songs reveals a sharp linguistic shift. Classical metaphors like <em>ishq, deedar, firaaq,</em> and <em>zulf</em> formed the bedrock of songwriting until the 2000s remix wave swapped poetic Urdu for Western colloquial hooks.</p>
+        <div class="stat-pill">Corpus Analysis: sanam (693) & ishq (581) dominate pre-2000s catalog</div>
+      </div>
+    </section>
+
+    <!-- ACT III: TUNES & MOODS (Rough.js) -->
+    <section class="act-section" id="act-3-tunes">
+      <div class="visual-wrapper" style="display:flex; justify-content:center; align-items:center;">
+        <canvas id="rough-barchart" width="860" height="480" style="max-width:100%; height:auto;"></canvas>
+      </div>
+      <div class="prose-block">
+        <span class="act-tag">Act III: How Tunes Changed</span>
+        <h2>The Mood Shift: Romance to Club Energy</h2>
+        <p>Acoustic and compositional classifications showcase an emotional polarization: introspective romance and melodic pining shifted dramatically toward high-energy dance arrangements crafted for algorithmic club replays.</p>
+        <div class="stat-pill">Upbeat Shift: 28% in 1990s → 66% Club & Party Surge in 2010s</div>
+      </div>
+    </section>
+
+    <!-- Act IV: Best Artists Over Time -->
+    <section class="act-section" id="act-4-artists">
+      <div class="visual-wrapper" style="height: 560px; background: transparent; border: none; box-shadow: none;">
+        <div class="pudding-podiums">
+          
+          <div class="podium-column">
+            <div class="podium-stat-badge">160</div>
+            <img class="real-head-cutout" src="assets/singers/mohammed_rafi.png" alt="Mohammed Rafi">
+            <div class="podium-box" style="height: 180px;">
+              <span class="podium-era">1950s–60s</span>
+              <div class="podium-name">Md. Rafi</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">360</div>
+            <img class="real-head-cutout" src="assets/singers/lata_mangeshkar.png" alt="Lata Mangeshkar">
+            <div class="podium-box" style="height: 310px; background: #e8ded0; border-color:#c93b68;">
+              <span class="podium-era">All-Time #1</span>
+              <div class="podium-name" style="color:#c93b68;">Lata Mangeshkar</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">198</div>
+            <img class="real-head-cutout" src="assets/singers/kishore_kumar.png" alt="Kishore Kumar">
+            <div class="podium-box" style="height: 220px;">
+              <span class="podium-era">1970s–80s</span>
+              <div class="podium-name">Kishore Kumar</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">40</div>
+            <img class="real-head-cutout" src="assets/singers/kumar_sanu.png" alt="Kumar Sanu">
+            <div class="podium-box" style="height: 140px;">
+              <span class="podium-era">1985–94 Peak</span>
+              <div class="podium-name">Kumar Sanu</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">54</div>
+            <img class="real-head-cutout" src="assets/singers/alka_yagnik.png" alt="Alka Yagnik">
+            <div class="podium-box" style="height: 155px;">
+              <span class="podium-era">1995–04 Peak</span>
+              <div class="podium-name">Alka Yagnik</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">56</div>
+            <img class="real-head-cutout" src="assets/singers/arijit_singh.png" alt="Arijit Singh">
+            <div class="podium-box" style="height: 160px;">
+              <span class="podium-era">2015–25 Peak</span>
+              <div class="podium-name">Arijit Singh</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="prose-block">
+        <span class="act-tag">Act IV: Best Artists Over Time</span>
+        <h2>Monarchs of the Playback Era</h2>
+        <p>Across six decades, Bollywood playback singing functioned as an artistic monopoly. Tracking catalog density demonstrates how each era was defined by a signature vocal timbre: from Rafi and Kishore Kumar to Kumar Sanu and Arijit Singh.</p>
+        <div class="stat-pill">Ranked by Decade Catalog Hit Volume</div>
+      </div>
+    </section>
+
+    <!-- ACT V: DADI & TARA'S TIMEWALK -->
+    <section class="act-section" id="act-5-storyline">
+      <div class="prose-block" style="text-align: center; margin-bottom: 2.8rem;">
+        <span class="act-tag">Act V: Conversations Through Time</span>
+        <h2>Seven Decades of Melody</h2>
+        <p>A cross-generational listening session between <strong>Dadi</strong> and <strong>Tara</strong>.</p>
+      </div>
+
+      <div class="dt-storyline-section">
+        <div class="dt-spine"></div>
+
+        <!-- ERA 1: 1955-1964 -->
+        <article class="dt-era-stage active" data-index="0">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">1955–64</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar dadi-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <path d="M18 92 C 22 72, 38 68, 50 68 C 62 68, 78 72, 82 92 Z" fill="#b98926" stroke="#181514" stroke-width="3"/>
+                    <rect x="43" y="52" width="14" height="18" fill="#e5b48e" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="22" r="14" fill="#a49d95" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="20" r="10" fill="#c3bcba"/>
+                    <ellipse cx="50" cy="42" rx="20" ry="22" fill="#efc19c" stroke="#181514" stroke-width="3"/>
+                    <path d="M30 36 C 35 24, 46 22, 50 25 C 54 22, 65 24, 70 36 Z" fill="#938b83" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="50" cy="35" r="2.2" fill="#c93b68"/>
+                    <circle cx="42" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="58" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <path d="M48 42 L52 42" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="42" cy="42" r="1.8" fill="#181514"/>
+                    <circle cx="58" cy="42" r="1.8" fill="#181514"/>
+                    <path d="M44 52 Q 50 56 56 52" stroke="#9e4732" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name">Dadi</span>
+              </div>
+              <p>"We used to gather around the valve radio every evening. Sixty musicians playing together in a single hall without any auto-tune. If someone made a mistake in minute four, the entire orchestra started the song over from scratch."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="0">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Jaane Kahan Mera Jigar</strong>
+                <small>Mohammed Rafi &amp; Geeta Dutt • 1955</small>
+              </div>
+              <button class="dt-play-btn" data-index="0">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 2: 1965-1974 -->
+        <article class="dt-era-stage" data-index="1">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">1965–74</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar dadi-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <path d="M18 92 C 22 72, 38 68, 50 68 C 62 68, 78 72, 82 92 Z" fill="#b98926" stroke="#181514" stroke-width="3"/>
+                    <rect x="43" y="52" width="14" height="18" fill="#e5b48e" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="22" r="14" fill="#a49d95" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="20" r="10" fill="#c3bcba"/>
+                    <ellipse cx="50" cy="42" rx="20" ry="22" fill="#efc19c" stroke="#181514" stroke-width="3"/>
+                    <path d="M30 36 C 35 24, 46 22, 50 25 C 54 22, 65 24, 70 36 Z" fill="#938b83" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="50" cy="35" r="2.2" fill="#c93b68"/>
+                    <circle cx="42" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="58" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <path d="M48 42 L52 42" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="42" cy="42" r="1.8" fill="#181514"/>
+                    <circle cx="58" cy="42" r="1.8" fill="#181514"/>
+                    <path d="M44 52 Q 50 56 56 52" stroke="#9e4732" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name">Dadi</span>
+              </div>
+              <p>"Songs were written like ghazals back then. Lata ji’s voice carried genuine poetic longing across five full minutes. We were never in a rush to hit the chorus; the instrumental prelude took forty seconds just to set the mood."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="1">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Aaj Phir Jeene Ki Tamanna</strong>
+                <small>Lata Mangeshkar • 1965</small>
+              </div>
+              <button class="dt-play-btn" data-index="1">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 3: 1975-1984 -->
+        <article class="dt-era-stage" data-index="2">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">1975–84</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar tara-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <ellipse cx="50" cy="38" rx="27" ry="26" fill="#1f1816" stroke="#181514" stroke-width="3"/>
+                    <path d="M18 94 C 22 74, 36 70, 50 70 C 64 70, 78 74, 82 94 Z" fill="#e05780" stroke="#181514" stroke-width="3"/>
+                    <rect x="44" y="54" width="12" height="18" fill="#f0be99" stroke="#181514" stroke-width="3"/>
+                    <ellipse cx="50" cy="46" rx="20" ry="21" fill="#f7cbab" stroke="#181514" stroke-width="3"/>
+                    <path d="M35 38 Q 41 35 46 37" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M54 37 Q 59 35 65 38" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="41" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <ellipse cx="59" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <circle cx="42.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="60.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="34" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <circle cx="66" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <path d="M44 54 Q 50 61 56 54" stroke="#c93b68" stroke-width="2.5" fill="#c93b68" stroke-linecap="round"/>
+                    <path d="M23 38 C 24 14, 76 14, 77 38 C 70 24, 60 21, 50 21 C 40 21, 30 24, 23 38 Z" fill="#2b201d"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name" style="color:var(--cinema-deep-pink);">Tara</span>
+              </div>
+              <p>"Wait Dadi, this actually grooves! Pancham Da brought in that funky slap bass and brass section. Kishore Kumar sounds effortlessly cool, like he's winking right through my headphones."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="2">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Tum Aa Gaye Ho Noor</strong>
+                <small>Kishore Kumar &amp; Lata Mangeshkar • 1975</small>
+              </div>
+              <button class="dt-play-btn" data-index="2">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 4: 1985-1994 -->
+        <article class="dt-era-stage" data-index="3">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">1985–94</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar dadi-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <path d="M18 92 C 22 72, 38 68, 50 68 C 62 68, 78 72, 82 92 Z" fill="#b98926" stroke="#181514" stroke-width="3"/>
+                    <rect x="43" y="52" width="14" height="18" fill="#e5b48e" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="22" r="14" fill="#a49d95" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="20" r="10" fill="#c3bcba"/>
+                    <ellipse cx="50" cy="42" rx="20" ry="22" fill="#efc19c" stroke="#181514" stroke-width="3"/>
+                    <path d="M30 36 C 35 24, 46 22, 50 25 C 54 22, 65 24, 70 36 Z" fill="#938b83" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="50" cy="35" r="2.2" fill="#c93b68"/>
+                    <circle cx="42" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="58" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <path d="M48 42 L52 42" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="42" cy="42" r="1.8" fill="#181514"/>
+                    <circle cx="58" cy="42" r="1.8" fill="#181514"/>
+                    <path d="M44 52 Q 50 56 56 52" stroke="#9e4732" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name">Dadi</span>
+              </div>
+              <p>"The electronic keyboards arrived, and every tea stall started playing these cassettes. The sound became softer and smoother, and Asha Bhosle's vocal intimacy felt as close as a whisper."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="3">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Roz Roz Aankhon Tale</strong>
+                <small>Asha Bhosle &amp; Amit Kumar • 1987</small>
+              </div>
+              <button class="dt-play-btn" data-index="3">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 5: 1995-2004 -->
+        <article class="dt-era-stage" data-index="4">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">1995–04</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar tara-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <ellipse cx="50" cy="38" rx="27" ry="26" fill="#1f1816" stroke="#181514" stroke-width="3"/>
+                    <path d="M18 94 C 22 74, 36 70, 50 70 C 64 70, 78 74, 82 94 Z" fill="#e05780" stroke="#181514" stroke-width="3"/>
+                    <rect x="44" y="54" width="12" height="18" fill="#f0be99" stroke="#181514" stroke-width="3"/>
+                    <ellipse cx="50" cy="46" rx="20" ry="21" fill="#f7cbab" stroke="#181514" stroke-width="3"/>
+                    <path d="M35 38 Q 41 35 46 37" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M54 37 Q 59 35 65 38" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="41" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <ellipse cx="59" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <circle cx="42.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="60.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="34" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <circle cx="66" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <path d="M44 54 Q 50 61 56 54" stroke="#c93b68" stroke-width="2.5" fill="#c93b68" stroke-linecap="round"/>
+                    <path d="M23 38 C 24 14, 76 14, 77 38 C 70 24, 60 21, 50 21 C 40 21, 30 24, 23 38 Z" fill="#2b201d"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name" style="color:var(--cinema-deep-pink);">Tara</span>
+              </div>
+              <p>"This is where A.R. Rahman completely reinvented Indian sound. That deep digital bass layered right beneath Hariharan's Sufi vocal runs, it feels huge, spacious, and cinematic."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="4">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Tu Hi Re</strong>
+                <small>Hariharan • 1995</small>
+              </div>
+              <button class="dt-play-btn" data-index="4">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 6: 2005-2014 -->
+        <article class="dt-era-stage" data-index="5">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">2005–14</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar tara-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <ellipse cx="50" cy="38" rx="27" ry="26" fill="#1f1816" stroke="#181514" stroke-width="3"/>
+                    <path d="M18 94 C 22 74, 36 70, 50 70 C 64 70, 78 74, 82 94 Z" fill="#e05780" stroke="#181514" stroke-width="3"/>
+                    <rect x="44" y="54" width="12" height="18" fill="#f0be99" stroke="#181514" stroke-width="3"/>
+                    <ellipse cx="50" cy="46" rx="20" ry="21" fill="#f7cbab" stroke="#181514" stroke-width="3"/>
+                    <path d="M35 38 Q 41 35 46 37" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M54 37 Q 59 35 65 38" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="41" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <ellipse cx="59" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <circle cx="42.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="60.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="34" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <circle cx="66" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <path d="M44 54 Q 50 61 56 54" stroke="#c93b68" stroke-width="2.5" fill="#c93b68" stroke-linecap="round"/>
+                    <path d="M23 38 C 24 14, 76 14, 77 38 C 70 24, 60 21, 50 21 C 40 21, 30 24, 23 38 Z" fill="#2b201d"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name" style="color:var(--cinema-deep-pink);">Tara</span>
+              </div>
+              <p>"The iPod and ringtone era! KK's voice soaring over crisp acoustic guitar chords. No more lengthy instrumental introductions, the main vocal hook lands within ten seconds."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="5">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Aankhon Mein Teri</strong>
+                <small>KK • 2007</small>
+              </div>
+              <button class="dt-play-btn" data-index="5">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 7: 2015-2019 -->
+        <article class="dt-era-stage" data-index="6">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">2015–19</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar dadi-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <path d="M18 92 C 22 72, 38 68, 50 68 C 62 68, 78 72, 82 92 Z" fill="#b98926" stroke="#181514" stroke-width="3"/>
+                    <rect x="43" y="52" width="14" height="18" fill="#e5b48e" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="22" r="14" fill="#a49d95" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="20" r="10" fill="#c3bcba"/>
+                    <ellipse cx="50" cy="42" rx="20" ry="22" fill="#efc19c" stroke="#181514" stroke-width="3"/>
+                    <circle cx="50" cy="35" r="2.2" fill="#c93b68"/>
+                    <circle cx="42" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="58" cy="42" r="6" fill="rgba(255,255,255,0.7)" stroke="#181514" stroke-width="2.5"/>
+                    <path d="M48 42 L52 42" stroke="#181514" stroke-width="2.5"/>
+                    <circle cx="42" cy="42" r="1.8" fill="#181514"/>
+                    <circle cx="58" cy="42" r="1.8" fill="#181514"/>
+                    <path d="M44 52 Q 50 56 56 52" stroke="#9e4732" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name">Dadi</span>
+              </div>
+              <p>"People listen to short clips on their phones now, Tara. But when Shreya Ghoshal sings Kathak rhythms with Birju Maharaj, I still hear the spirit of our early mehfils. The song duration shrank, but the feeling stayed."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="6">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Mohe Rang Do Laal</strong>
+                <small>Shreya Ghoshal &amp; Pt. Birju Maharaj • 2015</small>
+              </div>
+              <button class="dt-play-btn" data-index="6">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ERA 8: 2020-2025 -->
+        <article class="dt-era-stage" data-index="7">
+          <div class="dt-node-anchor">
+            <div class="dt-node-pin"></div>
+            <div class="dt-era-badge">2020–25</div>
+          </div>
+          <div class="dt-dialogue-col">
+            <div class="dt-bubble">
+              <div class="dt-avatar-tag">
+                <div class="dt-char-avatar tara-avatar">
+                  <svg viewBox="0 0 100 100" class="dt-char-svg">
+                    <ellipse cx="50" cy="38" rx="27" ry="26" fill="#1f1816" stroke="#181514" stroke-width="3"/>
+                    <path d="M18 94 C 22 74, 36 70, 50 70 C 64 70, 78 74, 82 94 Z" fill="#e05780" stroke="#181514" stroke-width="3"/>
+                    <rect x="44" y="54" width="12" height="18" fill="#f0be99" stroke="#181514" stroke-width="3"/>
+                    <ellipse cx="50" cy="46" rx="20" ry="21" fill="#f7cbab" stroke="#181514" stroke-width="3"/>
+                    <path d="M35 38 Q 41 35 46 37" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M54 37 Q 59 35 65 38" stroke="#181514" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="41" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <ellipse cx="59" cy="44" rx="3.5" ry="4" fill="#181514"/>
+                    <circle cx="42.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="60.5" cy="42.5" r="1.4" fill="#ffffff"/>
+                    <circle cx="34" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <circle cx="66" cy="50" r="4.5" fill="#ff7096" opacity="0.5"/>
+                    <path d="M44 54 Q 50 61 56 54" stroke="#c93b68" stroke-width="2.5" fill="#c93b68" stroke-linecap="round"/>
+                    <path d="M23 38 C 24 14, 76 14, 77 38 C 70 24, 60 21, 50 21 C 40 21, 30 24, 23 38 Z" fill="#2b201d"/>
+                  </svg>
+                </div>
+                <span class="dt-avatar-name" style="color:var(--cinema-deep-pink);">Tara</span>
+              </div>
+              <p>"See Dadi? The intro was trimmed to four seconds, and it went viral on Reels before the film even released. But when Arijit holds that Indian classical alaap right in the bridge, the entire country still sings along."</p>
+            </div>
+          </div>
+          <div class="dt-media-col">
+            <div class="dt-media-card" data-index="7">
+              <div class="dt-disc"></div>
+              <div class="dt-track-meta">
+                <strong>Kesariya</strong>
+                <small>Arijit Singh • 2022</small>
+              </div>
+              <button class="dt-play-btn" data-index="7">▶</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ACT VI: CREATIVE AUDIO LAB & 100-SEAT THEATER -->
+    <section class="act-section" id="act-6-analytics" style="padding-top: 1.2rem; max-width: 900px; margin: 0 auto 3rem auto;">
+      <div class="prose-block" style="text-align: center; margin-bottom: 2.2rem;">
+        <span class="act-tag">Act VI: Sound Design & Vocal Voices</span>
+        <h2>How the Music Actually Changed</h2>
+        <p>Two visual experiments that reveal why a 1960 Lata melody sounds gentle in your living room, while a 2024 track punches right out of your phone speakers.</p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:3rem;">
+        
+        <!-- EXPERIMENT 1: THE SOUNDWAVE FLIP -->
+        <article style="background:#fff; border:2px solid #181514; border-radius:14px; padding:2.2rem; box-shadow:5px 5px 0px #181514;">
+          <div>
+            <span style="font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; text-transform:uppercase; color:#b8332a; display:inline-block; margin-bottom:6px;">Experiment 01 • Interactive Wave Oscilloscope</span>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.85rem; margin:6px 0 8px 0;">From Real Wooden Violins to Digital Synth Drops</h3>
+            <p style="font-size:1.15rem; line-height:1.75; color:#4a433d; margin:0 0 12px 0;">
+              Drag the timeline slider below to watch the physical audio signal morph. Classic Bollywood had natural valleys of silence; today's hits are compressed to stay loud and energetic non-stop.
+            </p>
+          </div>
+
+          <div class="soundwave-hero-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-family:'Space Mono',monospace; font-size:0.85rem; color:#bbb;">
+              <span id="wave-mode-label">MODE: Warm Organic Acoustic</span>
+              <span id="wave-signal-stat">Acoustic Score: 85% • Dance BPM: 78</span>
+            </div>
+            <canvas id="custom-soundwave-canvas" width="760" height="180" style="width:100%; height:180px; display:block;"></canvas>
+          </div>
+
+          <!-- Slider Bar -->
+          <div class="soundwave-controls">
+            <span style="font-family:'Space Mono',monospace; font-size:0.95rem; font-weight:700;">1955</span>
+            <input type="range" min="0" max="6" value="0" class="soundwave-slider" id="era-wave-slider">
+            <span style="font-family:'Space Mono',monospace; font-size:0.95rem; font-weight:700;">2025</span>
+            <div class="wave-badge-indicator" id="era-wave-badge">Era: 1955–64</div>
+          </div>
+
+          <!-- Dynamic Layman Insight Description -->
+          <div id="wave-layman-explainer" style="margin-top:1.3rem; padding:1.2rem 1.6rem; background:#faf7ee; border:1.5px solid #181514; border-radius:8px; font-size:1.1rem; line-height:1.75; color:#221e1d;">
+            🎻 <strong>The 1950s Organic Sound:</strong> Soft, breathing sine waves. Notice how the peaks are gentle and rounded. This was recorded live with musicians breathing together in a single hall.
+          </div>
+        </article>
+
+        <!-- EXPERIMENT 2: THE 100-SEAT THEATER CHORUS -->
+        <article style="background:#fff; border:2px solid #181514; border-radius:14px; padding:2.2rem; box-shadow:5px 5px 0px #181514;">
+          <div style="text-align:center;">
+            <span style="font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; text-transform:uppercase; color:#e05780; display:inline-block; margin-bottom:6px;">Experiment 02 • The 100-Seat Playback Orchestra</span>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.85rem; margin:6px 0 8px 0;">Who Gets to Hold the Microphone?</h3>
+            <p style="font-size:1.15rem; line-height:1.75; color:#4a433d; max-width:680px; margin:0 auto;">
+              Imagine Bollywood's entire soundtrack history as a 100-seat theater. Hover over any seat below to see who is singing.
+            </p>
+          </div>
+
+          <!-- The 100-Seat Grid -->
+          <div class="seat-theater-grid" id="theater-100-grid"></div>
+
+          <!-- Legend Bar -->
+          <div style="display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-top:12px;">
+            <div style="display:flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:0.92rem;">
+              <span style="width:16px; height:16px; border-radius:4px; background:#e88b9e; border:1px solid #181514; display:inline-block;"></span>
+              <strong>Pink: Female Solo (19 seats)</strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:0.92rem;">
+              <span style="width:16px; height:16px; border-radius:4px; background:#383230; border:1px solid #181514; display:inline-block;"></span>
+              <strong>Brown: Male Solo (54 seats)</strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:0.92rem;">
+              <span style="width:16px; height:16px; border-radius:4px; background:#d8a867; border:1px solid #181514; display:inline-block;"></span>
+              <strong>Gold: Duets &amp; Groups (27 seats)</strong>
+            </div>
+          </div>
+
+          <!-- Hover Tooltip Box -->
+          <div class="seat-tooltip-badge" id="theater-tooltip">
+            Hover over any seat above to explore who sings in modern cinema hits!
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </div><!-- /article-container -->
+
+  <div class="film-strip-border"></div>
+
+  <!-- FOOTER & MONKEY CREDITS -->
+  <footer>
+    <h2 style="font-family: 'Rozha One'; color: #c59b27; margin-bottom: 0.5rem; font-size: 2.6rem;">THE END • समाप्त</h2>
+
+    <div class="monkey-credits-wrapper" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px dashed rgba(197, 155, 39, 0.3);">
+      <div style="font-family: 'Space Mono', monospace; font-size: 1.35rem; letter-spacing: 2.5px; text-transform: uppercase; color: #c59b27; margin-bottom: 1.8rem; font-weight: 700; text-align: center;">
+        CURATED &amp; CRAFTED BY
+      </div>
+
+      <div class="monkey-natural-row" style="display: flex; justify-content: center; align-items: flex-end; gap: 0rem; max-width: 760px; margin: 0 auto;">
+        
+        <!-- Sharvari -->
+        <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 225px; text-align: center; margin: 0 -14px; z-index: 1;">
+          <img src="assets/monkeys/sharvari.png" alt="Sharvari" onerror="this.src='assets/monkeys/sharvari.jpg'" style="width: 225px; height: 255px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); cursor: pointer;">
+          <span style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #f4eedb; margin-top: 0.5rem; letter-spacing: 0.3px;">Sharvari</span>
+        </div>
+
+        <!-- Saloni -->
+        <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 205px; text-align: center; margin: 0 -14px; z-index: 2;">
+          <img src="assets/monkeys/saloni.png" alt="Saloni" onerror="this.src='assets/monkeys/saloni.jpg'" style="width: 205px; height: 230px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); cursor: pointer;">
+          <span style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #f4eedb; margin-top: 0.5rem; letter-spacing: 0.3px;">Saloni</span>
+        </div>
+
+        <!-- Aarya -->
+        <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 205px; text-align: center; margin: 0 -14px; z-index: 1;">
+          <img src="assets/monkeys/aarya.png" alt="Aarya" onerror="this.src='assets/monkeys/aarya.jpg'" style="width: 195px; height: 220px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); cursor: pointer;">
+          <span style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #f4eedb; margin-top: 0.5rem; letter-spacing: 0.3px;">Aarya</span>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ----------------------------------------------------
+    // ACT I: PINK CASSETTE DECK CONTROLLER
+    // ----------------------------------------------------
+    function bootTapeDeck() {
+      const eraNodes = document.querySelectorAll(".era-tape-node");
+      const ribbonFill = document.getElementById("tape-ribbon-bar");
+      const durVal = document.getElementById("deck-duration-val");
+      const headline = document.getElementById("deck-era-headline");
+      const desc = document.getElementById("deck-era-desc");
+
+      if (!eraNodes.length) return;
+
+      const eraDetails = [
+        { len: "5m 05s", pct: "90%", head: "1960s: Ghazal Metaphors & Extended Mehfils", story: "Soundtracks were theatrical experiences. Lata Mangeshkar and Mohammed Rafi songs took two minutes just to establish mood and classical antaras before reaching the climax." },
+        { len: "5m 25s", pct: "95%", head: "1970s: The Orchestral Zenith (RD Burman Era)", story: "Peak Bollywood song duration. Sixty acoustic musicians in a single studio hall, extended brass interludes, and double guitar solos easily stretched songs past five and a half minutes." },
+        { len: "5m 35s", pct: "100%", head: "1980s: Cassette Tape Epics", story: "The golden age of T-Series cassettes. Extended emotional ballads and disco jams with multiple verse cycles cassette tape real estate encouraged lengthy 6-minute recordings." },
+        { len: "5m 12s", pct: "86%", head: "1990s: Melodic Romances & AR Rahman's Atmosphere", story: "Kumar Sanu, Alka Yagnik, and AR Rahman kept tracks luxuriant. Instrumental interludes were mini-symphonies that told visual subplot stories on screen." },
+        { len: "4m 38s", pct: "70%", head: "2000s: The iPod, CD & Ringtone Shift", story: "The first noticeable trimming. Radio edits and caller ringback tunes incentivized producers to bring the melodic hook to the 30-second mark." },
+        { len: "3m 58s", pct: "55%", head: "2010s: YouTube Video Hits & Streaming Infiltration", story: "Tracks broke beneath the 4-minute ceiling. Songs shed their second instrumental bridges to maximize playback loops and playlist retention." },
+        { len: "2m 54s", pct: "36%", head: "2020s: The 15-Second Hook & Quick Fade", story: "Songs are engineered for algorithmic survival on Spotify and Reels. Intros are trimmed to four seconds, choruses hit immediately, and songs end well before minute three." }
+      ];
+
+      eraNodes.forEach((node, idx) => {
+        function activate() {
+          eraNodes.forEach(n => {
+            n.classList.remove("active");
+            const pill = n.querySelector(".era-duration-pill");
+            if (pill) { pill.style.background = "#f4eedb"; pill.style.color = "#181514"; }
+          });
+          node.classList.add("active");
+          const activePill = node.querySelector(".era-duration-pill");
+          if (activePill) { activePill.style.background = "#e05780"; activePill.style.color = "#fff"; }
+
+          const d = eraDetails[idx];
+          if (ribbonFill) ribbonFill.style.width = d.pct;
+          if (durVal) durVal.innerText = d.len;
+          if (headline) headline.innerText = d.head;
+          if (desc) desc.innerText = d.story;
+        }
+
+        node.onclick = activate;
+        node.onmouseenter = activate;
+      });
+    }
+
+    // ----------------------------------------------------
+    // ACT II: WORDINGS TOOLTIP
+    // ----------------------------------------------------
+    function initWordTooltips() {
+      const tooltip = document.getElementById("word-tooltip");
+      const words = document.querySelectorAll(".timeline-word");
+      if (tooltip && words.length) {
+        words.forEach(word => {
+          word.addEventListener("mouseenter", () => {
+            const name = word.dataset.word;
+            const years = word.dataset.years;
+            const era = word.dataset.era;
+            tooltip.className = "word-tooltip show " + era;
+            tooltip.innerHTML = `<strong>${name.toUpperCase()}</strong>Active: '${years}<br>${era === "classical" ? "Urdu Poetic Metaphor" : "Modern Pop Hook"}`;
+          });
+          word.addEventListener("mousemove", (e) => {
+            tooltip.style.left = (e.clientX + 14) + "px";
+            tooltip.style.top = (e.clientY + 14) + "px";
+          });
+          word.addEventListener("mouseleave", () => {
+            tooltip.classList.remove("show");
+          });
+        });
+      }
+    }
+
+    // ----------------------------------------------------
+    // ACT III: ROUGH.JS BAR CHART
+    // ----------------------------------------------------
+    function renderRoughChart() {
+      const rCanvas = document.getElementById("rough-barchart");
+      if (rCanvas && window.rough) {
+        const rc = rough.canvas(rCanvas);
+        const ctx = rCanvas.getContext("2d");
+        ctx.clearRect(0, 0, rCanvas.width, rCanvas.height);
+
+        ctx.font = "900 24px 'Playfair Display'";
+        ctx.fillStyle = "#181514";
+        ctx.fillText("How Tunes Changed: Romance vs. Dance Club", 20, 36);
+
+        rc.rectangle(540, 38, 20, 14, { fill: "#181514", fillWeight: 2, hachureGap: 3.5, stroke: "#181514", roughness: 1.5 });
+        ctx.font = "700 11px 'Space Mono'";
+        ctx.fillStyle = "#181514";
+        ctx.fillText("Romance", 570, 50);
+
+        rc.rectangle(670, 38, 20, 14, { fill: "#e05780", fillWeight: 2, hachureGap: 3.5, stroke: "#c93b68", roughness: 1.5 });
+        ctx.fillText("Dance Party", 700, 50);
+
+        const gridY = [100, 175, 250, 325, 400];
+        const gridLabels = ["100%", "75%", "50%", "25%", "0%"];
+        ctx.strokeStyle = "#c8beaa";
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([6, 6]);
+
+        gridY.forEach((y, idx) => {
+          ctx.beginPath();
+          ctx.moveTo(80, y);
+          ctx.lineTo(820, y);
+          ctx.stroke();
+
+          ctx.font = "700 13px 'Space Mono'";
+          ctx.fillStyle = "#181514";
+          ctx.fillText(gridLabels[idx], 30, y + 4);
+        });
+        ctx.setLineDash([]);
+
+        const eras = [
+          { label: "'90s", romance: 72, dance: 28 },
+          { label: "'00s", romance: 58, dance: 42 },
+          { label: "'10s", romance: 34, dance: 66 },
+          { label: "'20s", romance: 44, dance: 56 }
+        ];
+
+        const barWidth = 90;
+        const totalHeight = 300;
+        const startX = 130;
+        const stepX = 175;
+
+        function drawPillText(text, tx, ty) {
+          ctx.save();
+          ctx.font = "700 15px 'Space Mono'";
+          const w = ctx.measureText(text).width + 12;
+          ctx.fillStyle = "#fcf8ef";
+          ctx.strokeStyle = "#181514";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(tx - w/2, ty - 11, w, 22, 4);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#181514";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(text, tx, ty);
+          ctx.restore();
+        }
+
+        eras.forEach((era, i) => {
+          const x = startX + (i * stepX);
+          const romanceH = (era.romance / 100) * totalHeight;
+          const danceH = (era.dance / 100) * totalHeight;
+
+          const romanceY = 400 - romanceH;
+          rc.rectangle(x, romanceY, barWidth, romanceH, {
+            fill: "#181514",
+            fillStyle: "hachure",
+            fillWeight: 2.2,
+            hachureAngle: -40,
+            hachureGap: 4.5,
+            stroke: "#181514",
+            strokeWidth: 2.5,
+            roughness: 2.0
+          });
+
+          const danceY = romanceY - danceH;
+          rc.rectangle(x, danceY, barWidth, danceH, {
+            fill: "#e05780",
+            fillStyle: "hachure",
+            fillWeight: 2.2,
+            hachureAngle: 50,
+            hachureGap: 4.5,
+            stroke: "#c93b68",
+            strokeWidth: 2.5,
+            roughness: 2.0
+          });
+
+          drawPillText(era.dance + "%", x + barWidth/2, danceY + (danceH / 2));
+          drawPillText(era.romance + "%", x + barWidth/2, romanceY + (romanceH / 2));
+
+          ctx.font = "800 16px 'Space Mono'";
+          ctx.fillStyle = "#181514";
+          ctx.fillText(era.label, x + 24, 432);
+        });
+
+        rc.line(70, 400, 830, 400, { stroke: "#181514", strokeWidth: 3, roughness: 1.5 });
+      }
+    }
+
+    // ----------------------------------------------------
+    // ACT V: TIMELINE AUDIO ENGINE
+    // ----------------------------------------------------
+    function initStoryAudio() {
+      const tracks = [
+        { file: "assets/audio/jaane_kahan_mera_jigar.mp3", title: "Jaane Kahan Mera Jigar" },
+        { file: "assets/audio/aaj_phir_jeene_ki_tamanna_hai.mp3", title: "Aaj Phir Jeene Ki Tamanna" },
+        { file: "assets/audio/tum_aa_gaye_ho.mp3", title: "Tum Aa Gaye Ho Noor" },
+        { file: "assets/audio/roj_roj_aankhon_tale.mp3", title: "Roz Roz Aankhon Tale" },
+        { file: "assets/audio/tu_hi_re.mp3", title: "Tu Hi Re" },
+        { file: "assets/audio/aankhon_mein_teri_ajab_si.mp3", title: "Aankhon Mein Teri" },
+        { file: "assets/audio/mohe_rang_do_laal.mp3", title: "Mohe Rang Do Laal" },
+        { file: "assets/audio/kesariya.mp3", title: "Kesariya" }
+      ];
+
+      let audioPlayer = new Audio();
+      audioPlayer.volume = 0.9;
+      let activeIndex = -1;
+
+      function updateUI(idx, isPlaying) {
+        const stages = document.querySelectorAll(".dt-era-stage");
+        const playBtns = document.querySelectorAll(".dt-play-btn");
+
+        stages.forEach((stage, i) => {
+          if (i === idx && isPlaying) {
+            stage.classList.add("active", "playing-track");
+          } else {
+            stage.classList.remove("playing-track");
+            if (i !== idx) stage.classList.remove("active");
+          }
+        });
+
+        playBtns.forEach((btn, i) => {
+          btn.innerText = (i === idx && isPlaying) ? "⏸" : "▶";
+        });
+      }
+
+      function handlePlayToggle(idx) {
+        if (activeIndex === idx && !audioPlayer.paused) {
+          audioPlayer.pause();
+          updateUI(idx, false);
+          return;
+        }
+
+        if (activeIndex === idx && audioPlayer.paused && audioPlayer.src) {
+          audioPlayer.play().then(() => updateUI(idx, true)).catch(e => console.error(e));
+          return;
+        }
+
+        activeIndex = idx;
+        const targetPath = tracks[idx].file;
+
+        audioPlayer.pause();
+        audioPlayer.src = targetPath;
+        audioPlayer.load();
+
+        audioPlayer.play()
+          .then(() => updateUI(idx, true))
+          .catch(() => {
+            audioPlayer.src = "../" + targetPath;
+            audioPlayer.load();
+            audioPlayer.play()
+              .then(() => updateUI(idx, true))
+              .catch(e => console.warn("Track not found yet:", targetPath));
+          });
+      }
+
+      audioPlayer.onended = () => {
+        updateUI(activeIndex, false);
+        activeIndex = -1;
+      };
+
+      document.querySelectorAll(".dt-media-card").forEach((card, idx) => {
+        card.onclick = (e) => { e.preventDefault(); e.stopPropagation(); handlePlayToggle(idx); };
+      });
+      document.querySelectorAll(".dt-play-btn").forEach((btn, idx) => {
+        btn.onclick = (e) => { e.preventDefault(); e.stopPropagation(); handlePlayToggle(idx); };
+      });
+    }
+
+    // ----------------------------------------------------
+    // ACT VI: SOUNDWAVE OSCILLOSCOPE & 100-SEAT THEATER
+    // ----------------------------------------------------
+    function bootAct6Visuals() {
+      // 1. Oscilloscope Canvas
+      const canvas = document.getElementById("custom-soundwave-canvas");
+      const slider = document.getElementById("era-wave-slider");
+      const badge = document.getElementById("era-wave-badge");
+      const modeLabel = document.getElementById("wave-mode-label");
+      const statLabel = document.getElementById("wave-signal-stat");
+      const explainer = document.getElementById("wave-layman-explainer");
+
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        canvas.width = canvas.parentElement.clientWidth || 720;
+        canvas.height = 180;
+
+        const eraConfigs = [
+          { badge: "Era: 1955–64", mode: "MODE: Warm Organic Acoustic (Live Studio Hall)", stat: "Acoustic Warmth: 84% • Dance BPM: 76", desc: "🎻 <b>1950s Live Orchestra:</b> Gentle, breathing curves. Musicians were recorded together in a single hall without auto-tune; the wave carries natural reverberation and pauses.", color: "#e88b9e", freq: 1.2, spikes: 0, amplitude: 44 },
+          { badge: "Era: 1965–74", mode: "MODE: Classical Ghazal & Sitar Harmonics", stat: "Acoustic Warmth: 77% • Dance BPM: 84", desc: "🪕 <b>1960s Golden Melodies:</b> Lata Mangeshkar and Rafi with delicate sitar riffs. Wide open dynamics with plenty of breathing room.", color: "#e5b48e", freq: 1.6, spikes: 0.1, amplitude: 42 },
+          { badge: "Era: 1975–84", mode: "MODE: Brass Sections & Funk Slap Bass", stat: "Acoustic Warmth: 56% • Dance BPM: 102", desc: "🎺 <b>1970s Pancham Groove:</b> RD Burman introduces punchy drum kits and slap bass. Rhythmic bumps start multiplying along the wave.", color: "#d8a867", freq: 2.3, spikes: 0.35, amplitude: 48 },
+          { badge: "Era: 1985–94", mode: "MODE: Cassette Synthesizers & Electronic Beats", stat: "Acoustic Warmth: 41% • Dance BPM: 110", desc: "🎹 <b>1980s Keyboard Era:</b> The electronic synthesizer arrives. The acoustic room air shrinks as electronic drum machines take the lead.", color: "#5b9279", freq: 3.0, spikes: 0.55, amplitude: 52 },
+          { badge: "Era: 1995–04", mode: "MODE: Digital Stereo & Sub-Woofer Bass", stat: "Acoustic Warmth: 30% • Dance BPM: 116", desc: "🎧 <b>1990s AR Rahman Revolution:</b> Multi-track digital recording. Deep sub-bass pulses and crisp hi-hat frequencies fill every empty gap.", color: "#4e8db8", freq: 3.8, spikes: 0.75, amplitude: 56 },
+          { badge: "Era: 2005–14", mode: "MODE: Autotune & Heavy Compression", stat: "Acoustic Warmth: 22% • Dance BPM: 122", desc: "🎸 <b>2000s Pop & Rock Boom:</b> Loudness compression peaks. Songs are produced to sound loud and direct on car radios and early iPods.", color: "#a469b8", freq: 4.6, spikes: 0.9, amplitude: 60 },
+          { badge: "Era: 2015–25", mode: "MODE: High-BPM Algorithmic Club Drop", stat: "Acoustic Warmth: 18% • Dance BPM: 128", desc: "🔊 <b>2020s Streaming & Reels:</b> The wave is dense and squared-off. Heavy 808 bass, ultra-fast transients, and zero seconds of quiet silence.", color: "#e05780", freq: 5.8, spikes: 1.2, amplitude: 64 }
+        ];
+
+        let phase = 0;
+
+        function renderFrame() {
+          const w = canvas.width;
+          const h = canvas.height;
+          const cy = h / 2;
+          const idx = slider ? parseInt(slider.value, 10) : 0;
+          const conf = eraConfigs[idx];
+
+          ctx.fillStyle = "#191615";
+          ctx.fillRect(0, 0, w, h);
+
+          // Grid
+          ctx.strokeStyle = "rgba(255,255,255,0.08)";
+          ctx.lineWidth = 1;
+          for (let x = 0; x < w; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+          }
+          ctx.beginPath();
+          ctx.moveTo(0, cy);
+          ctx.lineTo(w, cy);
+          ctx.stroke();
+
+          // Live Wave
+          ctx.beginPath();
+          ctx.lineWidth = 3.5;
+          ctx.strokeStyle = conf.color;
+          ctx.shadowColor = conf.color;
+          ctx.shadowBlur = 8;
+
+          for (let x = 0; x < w; x++) {
+            const t = (x / w) * Math.PI * 2 * conf.freq;
+            let y = Math.sin(t + phase) * conf.amplitude;
+
+            if (conf.spikes > 0) {
+              const harmonic = Math.sin(t * 3 - phase * 1.5) * (conf.spikes * 14);
+              const digitalSquare = Math.sign(Math.sin(t * 2 + phase)) * (conf.spikes * 10);
+              y = y * 0.7 + harmonic + digitalSquare;
+            }
+
+            if (y > 66) y = 66;
+            if (y < -66) y = -66;
+
+            if (x === 0) ctx.moveTo(x, cy + y);
+            else ctx.lineTo(x, cy + y);
+          }
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+
+          phase += 0.05 + (idx * 0.008);
+          requestAnimationFrame(renderFrame);
+        }
+
+        if (slider) {
+          slider.oninput = function() {
+            const c = eraConfigs[parseInt(this.value, 10)];
+            if (badge) badge.innerText = c.badge;
+            if (modeLabel) modeLabel.innerText = c.mode;
+            if (statLabel) statLabel.innerText = c.stat;
+            if (explainer) explainer.innerHTML = c.desc;
+          };
+        }
+
+        renderFrame();
+      }
+
+      // 2. 100-Seat Theater Grid
+      const grid = document.getElementById("theater-100-grid");
+      const tooltip = document.getElementById("theater-tooltip");
+
+      if (grid) {
+        grid.innerHTML = "";
+        const seatList = [];
+        for (let i = 1; i <= 54; i++) {
+          seatList.push({ type: "male", bg: "#383230", title: "Male Soloist", info: `Seat ${i}/100 • Rafi, Kishore, Kumar Sanu, Sonu Nigam, Arijit Singh` });
+        }
+        for (let i = 1; i <= 19; i++) {
+          seatList.push({ type: "female", bg: "#e88b9e", title: "Female Soloist", info: `Seat ${54+i}/100 • Lata Mangeshkar, Asha Bhosle, Shreya Ghoshal, Neha Kakkar` });
+        }
+        for (let i = 1; i <= 27; i++) {
+          seatList.push({ type: "duet", bg: "#d8a867", title: "Duet / Collab", info: `Seat ${73+i}/100 • Mixed Duet or Large Film Ensemble` });
+        }
+
+        seatList.forEach((s) => {
+          const chair = document.createElement("div");
+          chair.className = "theater-chair";
+          chair.style.background = s.bg;
+
+          chair.onmouseenter = function() {
+            chair.style.transform = "scale(1.4) translateY(-3px)";
+            chair.style.zIndex = "10";
+            chair.style.boxShadow = "0 6px 12px rgba(0,0,0,0.3)";
+            
+            if (tooltip) {
+              const tagColor = s.type === "female" ? "#e05780" : (s.type === "male" ? "#181514" : "#b98926");
+              tooltip.innerHTML = `<span style="color:${tagColor}; font-weight:800;">${s.title}</span> &mdash; ${s.info}`;
+            }
+
+            document.querySelectorAll(".theater-chair").forEach(c => {
+              if (c !== chair && c.style.background !== s.bg) c.style.opacity = "0.25";
+            });
+          };
+
+          chair.onmouseleave = function() {
+            chair.style.transform = "scale(1)";
+            chair.style.zIndex = "1";
+            chair.style.boxShadow = "none";
+
+            if (tooltip) {
+              tooltip.innerHTML = "Hover over any seat above to explore who sings in modern cinema hits!";
+            }
+
+            document.querySelectorAll(".theater-chair").forEach(c => {
+              c.style.opacity = "1";
+            });
+          };
+
+          grid.appendChild(chair);
+        });
+      }
+    }
+
+    // Master Bootstrapping on DOM Ready
+    window.addEventListener("DOMContentLoaded", () => {
+      bootTapeDeck();
+      initWordTooltips();
+      renderRoughChart();
+      initStoryAudio();
+      bootAct6Visuals();
+    });
+
+    // ----------------------------------------------------
+    // RELIABLE TAPE DECK CONTROLLER (CENTER CONNECTOR)
+    // ----------------------------------------------------
+    function setupReliableTapeDeck() {
+      const nodes = document.querySelectorAll(".era-tape-node");
+      const ribbonFill = document.getElementById("tape-ribbon-bar");
+      const durVal = document.getElementById("deck-duration-val");
+      const headline = document.getElementById("deck-era-headline");
+      const desc = document.getElementById("deck-era-desc");
+
+      if (!nodes.length || !ribbonFill) return;
+
+      const eraData = [
+        { pct: "0%", len: "5m 05s", head: "1960s: Ghazal Metaphors & Extended Mehfils", story: "Soundtracks were theatrical experiences. Lata Mangeshkar and Mohammed Rafi songs took two minutes just to establish mood and classical antaras before reaching the climax." },
+        { pct: "16.6%", len: "5m 25s", head: "1970s: The Orchestral Zenith (RD Burman Era)", story: "Peak Bollywood song duration. Sixty acoustic musicians in a single studio hall, extended brass interludes, and double guitar solos easily stretched songs past five and a half minutes." },
+        { pct: "33.3%", len: "5m 35s", head: "1980s: Cassette Tape Epics", story: "The golden age of T-Series cassettes. Extended emotional ballads and disco jams with multiple verse cycles cassette tape real estate encouraged lengthy 6-minute recordings." },
+        { pct: "50%", len: "5m 12s", head: "1990s: Melodic Romances & AR Rahman's Atmosphere", story: "Kumar Sanu, Alka Yagnik, and AR Rahman kept tracks luxuriant. Instrumental interludes were mini-symphonies that told visual subplot stories on screen." },
+        { pct: "66.6%", len: "4m 38s", head: "2000s: The iPod, CD & Ringtone Shift", story: "The first noticeable trimming. Radio edits and caller ringback tunes incentivized producers to bring the melodic hook to the 30-second mark." },
+        { pct: "83.3%", len: "3m 58s", head: "2010s: YouTube Video Hits & Streaming Infiltration", story: "Tracks broke beneath the 4-minute ceiling. Songs shed their second instrumental bridges to maximize playback loops and playlist retention." },
+        { pct: "100%", len: "2m 54s", head: "2020s: The 15-Second Hook & Quick Fade", story: "Songs are engineered for algorithmic survival on Spotify and Reels. Intros are trimmed to four seconds, choruses hit immediately, and songs end well before minute three." }
+      ];
+
+      function selectEra(idx) {
+        nodes.forEach((n, i) => {
+          if (i === idx) n.classList.add("active");
+          else n.classList.remove("active");
+        });
+
+        const d = eraData[idx];
+        ribbonFill.style.width = d.pct;
+        if (durVal) durVal.innerText = d.len;
+        if (headline) headline.innerText = d.head;
+        if (desc) desc.innerText = d.story;
+      }
+
+      nodes.forEach((node, idx) => {
+        node.onclick = () => selectEra(idx);
+        node.onmouseenter = () => selectEra(idx);
+      });
+
+      selectEra(6);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupReliableTapeDeck);
+    } else {
+      setupReliableTapeDeck();
+    }
+  </script>
+</body>
+</html>

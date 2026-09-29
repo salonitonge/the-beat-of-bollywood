@@ -1,0 +1,102 @@
+{
+  "act1_duration": {
+    "1990s": 5.05,
+    "2000s": 5.35,
+    "2010s": 4.63,
+    "2020s": 3.58
+  },
+  "act3_mood": {
+    "is_romance": {
+      "1990s": 100.0,
+      "2000s": 100.0,
+      "2010s": 33.3,
+      "2020s": 100.0
+    },
+    "is_dance": {
+      "1990s": 0.0,
+      "2000s": 0.0,
+      "2010s": 66.7,
+      "2020s": 0.0
+    }
+  },
+  "act2_lexicon": {
+    "ishq": {
+      "count": 581,
+      "window": "0\u20132002",
+      "start": 0,
+      "end": 2002
+    },
+    "zulf": {
+      "count": 171,
+      "window": "-1\u20131992",
+      "start": -1,
+      "end": 1992
+    },
+    "deedaar": {
+      "count": 0,
+      "window": "N/A",
+      "start": null,
+      "end": null
+    },
+    "jaam": {
+      "count": 228,
+      "window": "-1\u20131997",
+      "start": -1,
+      "end": 1997
+    },
+    "firaaq": {
+      "count": 7,
+      "window": "1757\u20132003",
+      "start": 1757,
+      "end": 2003
+    },
+    "mehboob": {
+      "count": 0,
+      "window": "N/A",
+      "start": null,
+      "end": null
+    },
+    "sanam": {
+      "count": 693,
+      "window": "1955\u20132001",
+      "start": 1955,
+      "end": 2001
+    },
+    "baby": {
+      "count": 18,
+      "window": "1979\u20132002",
+      "start": 1979,
+      "end": 2002
+    },
+    "party": {
+      "count": 1,
+      "window": "1998\u20131998",
+      "start": 1998,
+      "end": 1998
+    },
+    "nacho": {
+      "count": 3,
+      "window": "1969\u20131986",
+      "start": 1969,
+      "end": 1986
+    },
+    "swag": {
+      "count": 0,
+      "window": "N/A",
+      "start": null,
+      "end": null
+    },
+    "club": {
+      "count": 1,
+      "window": "1951\u20131951",
+      "start": 1951,
+      "end": 1951
+    },
+    "crazy": {
+      "count": 0,
+      "window": "N/A",
+      "start": null,
+      "end": null
+    }
+  }
+}

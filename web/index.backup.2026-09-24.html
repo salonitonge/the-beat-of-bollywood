@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Anatomy of a Bollywood Hit: 1960–2025</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,700&family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+
+  <style>
+    :root {
+      --cinema-red: #c93b68;
+      --cinema-crimson: #e05780;
+      --film-gold: #c59b27;
+      --vintage-paper: #f4eedb;
+      --ink-black: #181514;
+      --ink-charcoal: #3d3735;
+      --border-subtle: #dcd4be;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: var(--vintage-paper);
+      color: var(--ink-black);
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(#d3c7a6 1.5px, transparent 1.5px),
+        radial-gradient(#d3c7a6 1.5px, #f4eedb 1.5px);
+      background-size: 26px 26px;
+      background-position: 0 0, 13px 13px;
+    }
+
+    .film-strip-border {
+      height: 22px;
+      background: repeating-linear-gradient(
+        90deg,
+        #1c1817 0px,
+        #1c1817 22px,
+        transparent 22px,
+        transparent 34px
+      );
+      border-top: 3px solid #111;
+      border-bottom: 3px solid #111;
+    }
+
+    header {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 2rem 3rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .censor-stamp {
+      display: inline-block;
+      border: 3px solid var(--cinema-red);
+      color: var(--cinema-red);
+      padding: 0.4rem 1.6rem;
+      font-family: "Playfair Display", serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-size: 0.85rem;
+      transform: rotate(-3deg);
+      margin-bottom: 2rem;
+      box-shadow: 4px 4px 0px rgba(201, 59, 104, 0.2);
+      background: #fffdf7;
+    }
+
+    h1 {
+      font-family: "Rozha One", serif;
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      line-height: 1.12;
+      color: var(--ink-black);
+      max-width: 1000px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span.accent {
+      color: var(--cinema-crimson);
+      font-style: italic;
+    }
+
+    p.subtitle {
+      font-family: "Playfair Display", serif;
+      font-size: 1.45rem;
+      font-style: italic;
+      color: var(--ink-charcoal);
+      max-width: 760px;
+    }
+
+    .article-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .act-section {
+      margin-bottom: 6rem;
+    }
+
+    .visual-wrapper {
+      width: 100%;
+      height: 520px;
+      margin: 0 auto 2rem auto;
+      position: relative;
+      background: rgba(255, 253, 248, 0.85);
+      border: 2px solid #dcd3be;
+      border-radius: 8px;
+      padding: 1.2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .prose-block {
+      max-width: 740px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .act-tag {
+      font-family: "Cinzel Decorative", serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--cinema-crimson);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .prose-block h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--ink-black);
+      margin-bottom: 1rem;
+    }
+
+    .prose-block p {
+      color: var(--ink-charcoal);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .stat-pill {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: #ffe5ec;
+      border: 1px solid #fbb1bd;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cinema-crimson);
+      font-family: "Space Mono", monospace;
+    }
+
+    /* Act II Timeline Specific Styles */
+    .timeline-word {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+      user-select: none;
+      z-index: 5;
+    }
+    .timeline-word:hover {
+      transform: translate(-50%, -50%) scale(1.18);
+      z-index: 20;
+    }
+    .word-main {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+    .timeline-word.classical .word-main { color: #0f4c5c; }
+    .timeline-word.modern .word-main { color: #e05780; }
+    .word-years {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #6a6054;
+      margin-left: 4px;
+    }
+    .word-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      margin: 4px auto 0 auto;
+      opacity: 0.45;
+    }
+    .classical .word-dot { background: #0f4c5c; }
+    .modern .word-dot { background: #e05780; }
+
+    .word-tooltip {
+      position: fixed;
+      min-width: 150px;
+      padding: 8px 12px;
+      background: #181514;
+      color: #f8f1df;
+      border-radius: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 9999;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .word-tooltip.show { opacity: 1; transform: translateY(0); }
+    .word-tooltip strong { display: block; font-family: 'Playfair Display', serif; font-size: 0.95rem; margin-bottom: 2px; }
+    .word-tooltip.classical strong { color: #8ec6d2; }
+    .word-tooltip.modern strong { color: #f28aa8; }
+
+    /* Act IV Podium Cutouts */
+    .pudding-podiums {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1.8rem;
+      width: 100%;
+      height: 100%;
+      padding-bottom: 1.5rem;
+    }
+
+    .podium-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 15%;
+      text-align: center;
+      position: relative;
+    }
+
+    .podium-stat-badge {
+      font-family: "Caveat", cursive, sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--cinema-crimson);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .real-head-cutout {
+      width: 130px;
+      height: 150px;
+      object-fit: contain;
+      object-position: bottom center;
+      margin-bottom: -16px;
+      z-index: 3;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.25));
+      display: block;
+    }
+
+    .podium-box {
+      width: 100%;
+      background: #eee6d0;
+      border: 3px solid var(--ink-black);
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0.8rem 0.2rem;
+      box-shadow: 4px 4px 0px var(--ink-black);
+    }
+
+    .podium-era {
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #6d6459;
+    }
+
+    .podium-name {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink-black);
+      line-height: 1.2;
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================================
+       ACT V: PUDDING VERTICAL SOUNDWALK TIMELINE
+       ============================================================ */
+    .bp-story {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 3rem auto 2rem auto;
+      padding: 30px 0 60px;
+    }
+
+    .bp-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: repeating-linear-gradient(to bottom, #181514 0, #181514 10px, transparent 10px, transparent 20px);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .bp-era {
+      position: relative;
+      min-height: 48vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .bp-era:nth-of-type(even) .bp-era-content {
+      grid-column: 2;
+      padding-left: 50px;
+    }
+
+    .bp-era:nth-of-type(odd) .bp-era-content {
+      grid-column: 1;
+      padding-right: 50px;
+      text-align: right;
+    }
+
+    .bp-era-marker {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      text-align: center;
+    }
+
+    .bp-dot {
+      width: 18px;
+      height: 18px;
+      border: 3px solid #181514;
+      background: var(--vintage-paper);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .bp-year {
+      margin-top: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #7b7264;
+    }
+
+    .bp-era.active .bp-dot {
+      width: 26px;
+      height: 26px;
+      background: var(--cinema-crimson);
+      border-color: #181514;
+      box-shadow: 0 0 0 5px rgba(224, 87, 128, 0.25);
+    }
+
+    .bp-era.active .bp-year {
+      color: var(--cinema-crimson);
+    }
+
+    .bp-song-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border: 2px solid #181514;
+      background: #fffdf8;
+      box-shadow: 5px 5px 0px #181514;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .bp-era:nth-of-type(odd) .bp-song-card {
+      margin-left: auto;
+    }
+
+    .bp-song-card:hover, .bp-era.active .bp-song-card {
+      box-shadow: 6px 6px 0px var(--cinema-crimson);
+      border-color: var(--cinema-crimson);
+    }
+
+    .bp-disc {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 50%;
+      background: #181514;
+      border: 2px solid #181514;
+      position: relative;
+    }
+
+    .bp-disc::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--film-gold);
+      border: 2px solid #181514;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .bp-era.playing-track .bp-disc {
+      animation: spinDisc 3s linear infinite;
+    }
+
+    @keyframes spinDisc {
+      100% { transform: rotate(360deg); }
+    }
+
+    .bp-song-info {
+      flex: 1;
+    }
+
+    .bp-song-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      color: var(--cinema-crimson);
+      font-weight: 700;
+      display: block;
+    }
+
+    .bp-song-info strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink-black);
+      display: block;
+    }
+
+    .bp-song-info small {
+      font-size: 0.78rem;
+      color: #6a6157;
+    }
+
+    .bp-play {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 50%;
+      border: 2px solid #181514;
+      background: var(--film-gold);
+      color: #181514;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .bp-play:hover {
+      transform: scale(1.1);
+    }
+
+    /* Fixed Sticky Deck */
+    #pudding-sticky-deck {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 660px;
+      background: #181514;
+      color: var(--vintage-paper);
+      border-radius: 40px;
+      padding: 0.7rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 2px var(--film-gold);
+      z-index: 999999;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .deck-disc {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #2b2523;
+      border: 2px solid var(--film-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .deck-disc.playing {
+      animation: spinDisc 3s linear infinite;
+    }
+
+    .deck-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .deck-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .deck-sub {
+      font-size: 0.65rem;
+      color: #b5aa93;
+    }
+
+    .deck-btn {
+      background: var(--cinema-crimson);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    .deck-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .deck-next {
+      width: 32px;
+      height: 32px;
+      font-size: 0.8rem;
+      background: #332d2a;
+      border: 1px solid #777;
+    }
+
+    footer {
+      padding: 5rem 2rem;
+      text-align: center;
+      background: #181514;
+      color: #9c9189;
+      font-family: "Playfair Display", serif;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      .bp-story { width: 94%; }
+      .bp-line { left: 24px; }
+      .bp-era { min-height: auto; padding: 40px 0; display: block; }
+      .bp-era-marker { left: 24px; top: 20px; transform: translate(-50%, 0); }
+      .bp-era-content, .bp-era:nth-of-type(even) .bp-era-content, .bp-era:nth-of-type(odd) .bp-era-content {
+        padding: 0 0 0 52px;
+        text-align: left;
+      }
+      .bp-era:nth-of-type(odd) .bp-song-card { margin-left: 0; }
+    }
+  
+    /* Remove bottom dock styles */
+    #pudding-sticky-deck { display: none !important; }
+
+    /* Centered Spine & Nodes */
+    .bp-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, #181514 0, #181514 10px, transparent 10px, transparent 20px);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .bp-era-marker {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .bp-dot {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #181514;
+      background: #f4eedb;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #f4eedb;
+      transition: all 0.3s ease;
+    }
+
+    .bp-era.active .bp-dot {
+      width: 26px;
+      height: 26px;
+      background: var(--cinema-crimson);
+      border-color: #181514;
+      box-shadow: 0 0 0 6px rgba(224, 87, 128, 0.25);
+    }
+
+    /* Elegant Side Year Label */
+    .bp-side-year {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Space Mono', monospace;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #9d9282;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    /* Position year on opposite side of card */
+    .bp-era:nth-of-type(odd) .bp-side-year {
+      left: calc(50% + 36px);
+      text-align: left;
+    }
+
+    .bp-era:nth-of-type(even) .bp-side-year {
+      right: calc(50% + 36px);
+      text-align: right;
+    }
+
+    .bp-era.active .bp-side-year {
+      color: var(--cinema-crimson);
+    }
+
+</style>
+
+  <style>
+    #pudding-sticky-deck,
+    #deck-disc-visual,
+    #deck-title-text,
+    #deck-sub-text,
+    #deck-play-toggle,
+    .deck-next,
+    div:has(> #deck-play-toggle) {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  </style>
+
+
+  <style>
+    .monkey-card:hover div {
+      transform: translateY(-6px) scale(1.06);
+      border-color: var(--cinema-crimson) !important;
+      box-shadow: 0 10px 22px rgba(224, 87, 128, 0.35) !important;
+    }
+  </style>
+
+
+  <style>
+    .monkey-item:hover img {
+      transform: translateY(-8px) scale(1.06);
+      filter: drop-shadow(0 14px 20px rgba(224, 87, 128, 0.45)) !important;
+    }
+  </style>
+
+
+  <style>
+    /* Bobblehead effect on natural monkey figures */
+    .monkey-item img {
+      transform-origin: bottom center;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+    .monkey-item:hover img {
+      transform: scale(1.12) translateY(-6px) !important;
+      filter: drop-shadow(0 14px 22px rgba(201, 59, 104, 0.5)) !important;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="film-strip-border"></div>
+
+  <header>
+    <div class="censor-stamp">Central Board of Film Certification • Approved</div>
+    <h1>The Grand <span class="accent">Shrinkage</span> of Bollywood</h1>
+    <p class="subtitle">A quantitative inquiry into five decades of Hindi cinema soundtracks.</p>
+  </header>
+
+  <div class="film-strip-border"></div>
+
+  <div class="article-container">
+
+    <!-- ACT I: Duration -->
+    <div class="act-section">
+      <div class="visual-wrapper">
+        <div id="chart-act1" class="chart-container"></div>
+      </div>
+      <div class="prose-block">
+        <span class="act-tag">ACT I: THE DURATION COLLAPSE</span>
+        <h2>When Songs Were Melodic Epics</h2>
+        <p>In the 1990s and early 2000s, tracks were patient narrative structures. Composers crafted 45-second live orchestral preludes with multiple distinct poetic <em>antaras</em>. With modern streaming payout algorithms and short-form reels, track length collapsed by 33%.</p>
+        <div class="stat-pill">Peak 2000s: 5.35m → 2020s: 3.58m (-33.1% Duration Collapse)</div>
+      </div>
+    </div>
+
+    <!-- ACT II: Wordings (Clustered Pudding Swarm Timeline) -->
+    <div class="act-section">
+      <div class="visual-wrapper" style="height: 480px; position: relative; background: rgba(255, 253, 248, 0.85); border: 2px solid #dcd3be; border-radius: 8px; padding: 1.2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.04); overflow: hidden;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+          <div>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 800; color: #181514;">The Lexical Epoch: When Words Ruled Bollywood</h3>
+            <p style="font-family: 'Space Mono', monospace; font-size: 0.78rem; color: #6a6054;">Active prominence window across cinema history. Hover over words to inspect.</p>
+          </div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;">
+            <span style="color: #0f4c5c;">● Urdu Metaphors</span> &nbsp;|&nbsp; <span style="color: #e05780;">● Pop Slang</span>
+          </div>
+        </div>
+
+        <div id="timeline-swarm-container" style="position: relative; width: 100%; height: 350px; border-bottom: 2px solid #181514;">
+          
+          <!-- 2000s Transition Divider -->
+          <div style="position: absolute; left: 58%; top: 0; bottom: 0; border-left: 1.5px dashed #b5aa93;">
+            <span style="position: absolute; top: 6px; left: 6px; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #8c8275; white-space: nowrap;">2000s Shift</span>
+          </div>
+
+          <!-- Verified Classical Urdu Tokens -->
+          <div class="timeline-word classical" style="left:20%; top:26%;" data-word="sanam" data-years="1955–2001 (693 uses)" data-era="classical">
+            <span class="word-main">sanam</span><span class="word-years">'55–'01</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:26%; top:58%;" data-word="ishq" data-years="1960–2002 (581 uses)" data-era="classical">
+            <span class="word-main">ishq</span><span class="word-years">'60–'02</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:34%; top:38%;" data-word="jaam" data-years="1960–1997 (228 uses)" data-era="classical">
+            <span class="word-main">jaam</span><span class="word-years">'60–'97</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:40%; top:72%;" data-word="zulf" data-years="1958–1992 (171 uses)" data-era="classical">
+            <span class="word-main">zulf</span><span class="word-years">'58–'92</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word classical" style="left:48%; top:20%;" data-word="firaaq" data-years="Classic (Poetic rare)" data-era="classical">
+            <span class="word-main">firaaq</span><span class="word-years">Urdu</span><div class="word-dot"></div>
+          </div>
+
+          <!-- Modern Transition Tokens -->
+          <div class="timeline-word modern" style="left:64%; top:38%;" data-word="baby" data-years="Post-2000s Western hook" data-era="modern">
+            <span class="word-main">baby</span><span class="word-years">Modern</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:72%; top:66%;" data-word="party" data-years="Club / Upbeat era" data-era="modern">
+            <span class="word-main">party</span><span class="word-years">Upbeat</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:80%; top:28%;" data-word="club" data-years="Streaming Hook" data-era="modern">
+            <span class="word-main">club</span><span class="word-years">Streaming</span><div class="word-dot"></div>
+          </div>
+          <div class="timeline-word modern" style="left:86%; top:54%;" data-word="nacho" data-years="Dance Track" data-era="modern">
+            <span class="word-main">nacho</span><span class="word-years">Dance</span><div class="word-dot"></div>
+          </div>
+
+          <!-- Decade Axis -->
+          <div style="position: absolute; bottom: -28px; left: 0; right: 0; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.85rem; color: #181514;">
+            <span>1960</span>
+            <span>1970</span>
+            <span>1980</span>
+            <span>1990</span>
+            <span>2000</span>
+            <span>2010</span>
+            <span>2025</span>
+          </div>
+        </div>
+
+        <div id="word-tooltip" class="word-tooltip"></div>
+      </div>
+
+      <div class="prose-block">
+        <span class="act-tag">ACT II: HOW WORDINGS DIFFER</span>
+        <h2>Farewell to Urdu Ghazals</h2>
+        <p>Analyzing 6,670+ songs reveals a sharp linguistic shift. Classical metaphors like <em>ishq, deedar, firaaq,</em> and <em>zulf</em> formed the bedrock of songwriting until the 2000s remix wave swapped poetic Urdu for Western colloquial hooks.</p>
+        <div class="stat-pill">Corpus Analysis: sanam (693) & ishq (581) dominate pre-2000s catalog</div>
+      </div>
+    </div>
+
+    <!-- ACT III: Tunes & Moods (Rough.js Scribble Bar Chart) -->
+    <div class="act-section">
+      <div class="visual-wrapper" style="display:flex; justify-content:center; align-items:center;">
+        <canvas id="rough-barchart" width="860" height="480" style="max-width:100%; height:auto;"></canvas>
+      </div>
+      <div class="prose-block">
+        <span class="act-tag">ACT III: HOW TUNES CHANGED</span>
+        <h2>The Mood Shift: Romance to Club Energy</h2>
+        <p>Acoustic and compositional classifications showcase an emotional polarization: introspective romance and melodic pining shifted dramatically toward high-energy dance arrangements crafted for algorithmic club replays.</p>
+        <div class="stat-pill">Upbeat Shift: 28% in 1990s → 66% Club & Party Surge in 2010s</div>
+      </div>
+    </div>
+
+    <!-- ACT IV: The Figurine Podiums -->
+    <div class="act-section">
+      <div class="visual-wrapper" style="height: 540px; background: transparent; border: none; box-shadow: none;">
+        <div class="pudding-podiums">
+          
+          <div class="podium-column">
+            <div class="podium-stat-badge">160</div>
+            <img class="real-head-cutout" src="assets/singers/mohammed_rafi.png" alt="Mohammed Rafi">
+            <div class="podium-box" style="height: 180px;">
+              <span class="podium-era">1950s–60s</span>
+              <div class="podium-name">Md. Rafi</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">360</div>
+            <img class="real-head-cutout" src="assets/singers/lata_mangeshkar.png" alt="Lata Mangeshkar">
+            <div class="podium-box" style="height: 310px; background: #e8ded0; border-color:#c93b68;">
+              <span class="podium-era">All-Time #1</span>
+              <div class="podium-name" style="color:#c93b68;">Lata Mangeshkar</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">198</div>
+            <img class="real-head-cutout" src="assets/singers/kishore_kumar.png" alt="Kishore Kumar">
+            <div class="podium-box" style="height: 220px;">
+              <span class="podium-era">1970s–80s</span>
+              <div class="podium-name">Kishore Kumar</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">40</div>
+            <img class="real-head-cutout" src="assets/singers/kumar_sanu.png" alt="Kumar Sanu">
+            <div class="podium-box" style="height: 140px;">
+              <span class="podium-era">1985–94 Peak</span>
+              <div class="podium-name">Kumar Sanu</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">54</div>
+            <img class="real-head-cutout" src="assets/singers/alka_yagnik.png" alt="Alka Yagnik">
+            <div class="podium-box" style="height: 155px;">
+              <span class="podium-era">1995–04 Peak</span>
+              <div class="podium-name">Alka Yagnik</div>
+            </div>
+          </div>
+
+          <div class="podium-column">
+            <div class="podium-stat-badge">56</div>
+            <img class="real-head-cutout" src="assets/singers/arijit_singh.png" alt="Arijit Singh">
+            <div class="podium-box" style="height: 160px;">
+              <span class="podium-era">2015–25 Peak</span>
+              <div class="podium-name">Arijit Singh</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="prose-block">
+        <span class="act-tag">ACT IV: BEST ARTISTS OVER TIME</span>
+        <h2>Monarchs of the Playback Era</h2>
+        <p>Across six decades, Bollywood playback singing functioned as an artistic monopoly. Tracking catalog density demonstrates how each era was defined by a signature vocal timbre: from Rafi and Kishore Kumar to Kumar Sanu and Arijit Singh.</p>
+        <div class="stat-pill">Ranked by Decade Catalog Hit Volume</div>
+      </div>
+    </div>
+
+    <!-- ACT V: PUDDING STYLE VERTICAL SOUNDWALK -->
+    <div class="act-section" id="act-5-timeline">
+      <div class="prose-block" style="text-align: center; margin-bottom: 2.5rem;">
+        <span class="act-tag">ACT V: THE SOUND OF BOLLYWOOD</span>
+        <h2>Seven Decades. Seven Sounds.</h2>
+        <p>A vertical soundwalk through cinema history. Click any era's vinyl or card to trigger its historical MP3 snippet from our 1,514-song catalog.</p>
+        <div class="stat-pill">Benchmark Score per Era (out of 5.0 ★)</div>
+      </div>
+
+      <div class="bp-story">
+        <div class="bp-line"></div>
+
+        <!-- 1955–1964 -->
+        <article class="bp-era active" data-index="0">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">1955</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="0">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">1955–1964 • 5.0 ★</span>
+                <strong>Jaane Kahan Mera Jigar</strong>
+                <small>Mohammed Rafi &amp; Geeta Dutt</small>
+              </div>
+              <button class="bp-play" data-index="0">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1965–1974 -->
+        <article class="bp-era" data-index="1">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">1965</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="1">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">1965–1974 • 4.9 ★</span>
+                <strong>Aaj Phir Jeene Ki Tamanna</strong>
+                <small>Lata Mangeshkar • <em>Guide</em></small>
+              </div>
+              <button class="bp-play" data-index="1">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1975–1984 -->
+        <article class="bp-era" data-index="2">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">1975</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="2">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">1975–1984 • 4.9 ★</span>
+                <strong>Tum Aa Gaye Ho Noor</strong>
+                <small>Kishore Kumar &amp; Lata Mangeshkar</small>
+              </div>
+              <button class="bp-play" data-index="2">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1985–1994 -->
+        <article class="bp-era" data-index="3">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">1985</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="3">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">1985–1994 • 5.0 ★</span>
+                <strong>Roz Roz Aankhon Tale</strong>
+                <small>Asha Bhosle &amp; Amit Kumar</small>
+              </div>
+              <button class="bp-play" data-index="3">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1995–2004 -->
+        <article class="bp-era" data-index="4">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">1995</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="4">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">1995–2004 • 4.8 ★</span>
+                <strong>Tu Hi Re</strong>
+                <small>Hariharan • <em>Bombay</em></small>
+              </div>
+              <button class="bp-play" data-index="4">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2005–2014 -->
+        <article class="bp-era" data-index="5">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">2005</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="5">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">2005–2014 • 4.8 ★</span>
+                <strong>Aankhon Mein Teri</strong>
+                <small>KK • <em>Om Shanti Om</em></small>
+              </div>
+              <button class="bp-play" data-index="5">▶</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2015–2025 -->
+        <article class="bp-era" data-index="6">
+          <div class="bp-era-marker"><div class="bp-dot"></div></div><div class="bp-side-year">2015</div>
+          <div class="bp-era-content">
+            <div class="bp-song-card" data-index="6">
+              <div class="bp-disc"></div>
+              <div class="bp-song-info">
+                <span class="bp-song-label">2015–2025 • 4.8 ★</span>
+                <strong>Mohe Rang Do Laal</strong>
+                <small>Shreya Ghoshal &amp; Pt. Birju Maharaj</small>
+              </div>
+              <button class="bp-play" data-index="6">▶</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="film-strip-border"></div>
+
+  <footer>
+    <h2 style="font-family: 'Rozha One'; color: #c59b27; margin-bottom: 0.5rem; font-size: 2.4rem;">THE END • समाप्त</h2>
+    <p>Computational Film Studies • Built with Python NLP, Unix CLI &amp; Apache ECharts</p>
+
+<!-- MONKEY CREDITS -->
+<div class="monkey-credits-wrapper" style="margin-top: 2.8rem; padding-top: 1.8rem; border-top: 1px dashed rgba(197, 155, 39, 0.3);">
+  <div style="font-family: 'Space Mono', monospace; font-size: 1.2rem; letter-spacing: 2.5px; text-transform: uppercase; color: #c59b27; margin-bottom: 1.6rem; font-weight: 700; text-align: center;">
+    CURATED & CRAFTED BY
+  </div>
+
+  <div class="monkey-natural-row" style="display: flex; justify-content: center; align-items: flex-end; gap: 0rem; max-width: 720px; margin: 0 auto;">
+    
+    <!-- Sharvari (+2 size boost) -->
+    <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 215px; text-align: center; margin: 0 -14px; z-index: 1;">
+      <img src="assets/monkeys/sharvari.png" alt="Sharvari" onerror="this.src='assets/monkeys/sharvari.jpg'" style="width: 215px; height: 245px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); transition: transform 0.25s ease; cursor: pointer;">
+      <span style="font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: #f4eedb; margin-top: 0.45rem; letter-spacing: 0.3px;">Sharvari</span>
+    </div>
+
+    <!-- Saloni -->
+    <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 195px; text-align: center; margin: 0 -14px; z-index: 2;">
+      <img src="assets/monkeys/saloni.png" alt="Saloni" onerror="this.src='assets/monkeys/saloni.jpg'" style="width: 195px; height: 220px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); transition: transform 0.25s ease; cursor: pointer;">
+      <span style="font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: #f4eedb; margin-top: 0.45rem; letter-spacing: 0.3px;">Saloni</span>
+    </div>
+
+    <!-- Aarya (+1 size boost) -->
+    <div class="monkey-item" style="display: flex; flex-direction: column; align-items: center; width: 195px; text-align: center; margin: 0 -14px; z-index: 1;">
+      <img src="assets/monkeys/aarya.png" alt="Aarya" onerror="this.src='assets/monkeys/aarya.jpg'" style="width: 185px; height: 210px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.6)); transition: transform 0.25s ease; cursor: pointer;">
+      <span style="font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: #f4eedb; margin-top: 0.45rem; letter-spacing: 0.3px;">Aarya</span>
+    </div>
+
+  </div>
+</div>
+<!-- END MONKEY CREDITS -->
+
+  </footer>
+
+  
+    <div class="deck-info">
+      <div class="deck-title" id="deck-title-text">Jaane Kahan Mera Jigar</div>
+      <div class="deck-sub" id="deck-sub-text">1955–1964 • Mohammed Rafi &amp; Geeta Dutt</div>
+    </div>
+    <button class="deck-btn" id="deck-play-toggle" onclick="toggleDeckPlay()" title="Play / Pause">▶</button>
+    <button class="deck-btn deck-next" onclick="playNextTrack()" title="Next Era">⏭</button>
+  </div>
+
+  <script>
+    const chartData = {
+      duration_trends: [
+        { decade: "1990s", median: 5.05 },
+        { decade: "2000s", median: 5.35 },
+        { decade: "2010s", median: 4.63 },
+        { decade: "2020s", median: 3.58 }
+      ]
+    };
+
+    function renderAllCharts() {
+      // ACT I: Duration Line Chart
+      const chart1Elem = document.getElementById("chart-act1");
+      if (chart1Elem) {
+        const chart1 = echarts.init(chart1Elem, null, { renderer: "canvas" });
+        const labels1 = chartData.duration_trends.map(d => "'" + d.decade.replace("s", "").slice(2));
+        const medians1 = chartData.duration_trends.map(d => d.median);
+
+        chart1.setOption({
+          title: { 
+            text: "Average Song Duration Collapse", 
+            subtext: "Median track length in minutes • 33% decline into streaming era",
+            left: 10,
+            top: 10,
+            textStyle: { fontFamily: "Playfair Display", fontSize: 24, fontWeight: 900, color: "#181514" },
+            subtextStyle: { fontFamily: "Space Mono", fontSize: 13, color: "#c93b68", fontWeight: 700 }
+          },
+          grid: { top: 85, right: 35, bottom: 45, left: 55 },
+          xAxis: { 
+            type: "category", 
+            data: labels1,
+            axisLine: { lineStyle: { color: "#181514", width: 2.5 } },
+            axisTick: { show: true, length: 6, lineStyle: { color: "#181514", width: 2 } },
+            axisLabel: { fontFamily: "Space Mono", fontWeight: 800, fontSize: 15, color: "#181514", margin: 12 }
+          },
+          yAxis: { 
+            type: "value", 
+            min: 2, 
+            max: 6, 
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { fontFamily: "Space Mono", fontSize: 13, color: "#181514", fontWeight: 700, formatter: "{value}m" },
+            splitLine: { lineStyle: { color: "#c8beaa", type: "dashed", width: 1.5 } }
+          },
+          series: [{ 
+            type: "line", 
+            data: medians1, 
+            smooth: 0.25, 
+            symbol: "circle",
+            symbolSize: 12,
+            itemStyle: { color: "#e05780", borderColor: "#181514", borderWidth: 3 },
+            lineStyle: { color: "#c93b68", width: 4.5 },
+            label: {
+              show: true,
+              position: "top",
+              fontFamily: "Space Mono",
+              fontWeight: 800,
+              fontSize: 13,
+              color: "#181514",
+              formatter: "{c}m"
+            },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "rgba(255, 117, 143, 0.35)" },
+                { offset: 1, color: "rgba(255, 183, 195, 0.05)" }
+              ])
+            }
+          }]
+        });
+      }
+
+      // ACT II Tooltips
+      const tooltip = document.getElementById("word-tooltip");
+      const words = document.querySelectorAll(".timeline-word");
+      if (tooltip && words.length) {
+        words.forEach(word => {
+          word.addEventListener("mouseenter", () => {
+            const name = word.dataset.word;
+            const years = word.dataset.years;
+            const era = word.dataset.era;
+            tooltip.className = "word-tooltip show " + era;
+            tooltip.innerHTML = `<strong>${name.toUpperCase()}</strong>Active: '${years}<br>${era === "classical" ? "Urdu Poetic Metaphor" : "Modern Pop Hook"}`;
+          });
+          word.addEventListener("mousemove", (e) => {
+            tooltip.style.left = (e.clientX + 14) + "px";
+            tooltip.style.top = (e.clientY + 14) + "px";
+          });
+          word.addEventListener("mouseleave", () => {
+            tooltip.classList.remove("show");
+          });
+        });
+      }
+
+      // ACT III: Rough.js Scribble Bar Chart
+      const rCanvas = document.getElementById("rough-barchart");
+      if (rCanvas && window.rough) {
+        const rc = rough.canvas(rCanvas);
+        const ctx = rCanvas.getContext("2d");
+        ctx.clearRect(0, 0, rCanvas.width, rCanvas.height);
+
+        ctx.font = "900 24px 'Playfair Display'";
+        ctx.fillStyle = "#181514";
+        ctx.fillText("How Tunes Changed: Romance vs. Dance Club", 20, 36);
+
+        ctx.font = "700 12px 'Space Mono'";
+        ctx.fillStyle = "#6a6054";
+        ctx.fillText("Hachure hand-drawn scribble bar chart inspired by The Pudding", 20, 60);
+
+        rc.rectangle(540, 38, 20, 14, { fill: "#181514", fillWeight: 2, hachureGap: 3.5, stroke: "#181514", roughness: 1.5 });
+        ctx.font = "700 11px 'Space Mono'";
+        ctx.fillStyle = "#181514";
+        ctx.fillText("Romance", 570, 50);
+
+        rc.rectangle(670, 38, 20, 14, { fill: "#e05780", fillWeight: 2, hachureGap: 3.5, stroke: "#c93b68", roughness: 1.5 });
+        ctx.fillText("Dance Party", 700, 50);
+
+        const gridY = [100, 175, 250, 325, 400];
+        const gridLabels = ["100%", "75%", "50%", "25%", "0%"];
+        ctx.strokeStyle = "#c8beaa";
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([6, 6]);
+
+        gridY.forEach((y, idx) => {
+          ctx.beginPath();
+          ctx.moveTo(80, y);
+          ctx.lineTo(820, y);
+          ctx.stroke();
+
+          ctx.font = "700 12px 'Space Mono'";
+          ctx.fillStyle = "#181514";
+          ctx.fillText(gridLabels[idx], 32, y + 4);
+        });
+        ctx.setLineDash([]);
+
+        const eras = [
+          { label: "'90s", romance: 72, dance: 28 },
+          { label: "'00s", romance: 58, dance: 42 },
+          { label: "'10s", romance: 34, dance: 66 },
+          { label: "'20s", romance: 44, dance: 56 }
+        ];
+
+        const barWidth = 90;
+        const totalHeight = 300;
+        const startX = 130;
+        const stepX = 175;
+
+        function drawPillText(text, tx, ty) {
+          ctx.save();
+          ctx.font = "700 15px 'Space Mono'";
+          const w = ctx.measureText(text).width + 12;
+          ctx.fillStyle = "#fcf8ef";
+          ctx.strokeStyle = "#181514";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(tx - w/2, ty - 11, w, 22, 4);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#181514";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(text, tx, ty);
+          ctx.restore();
+        }
+
+        eras.forEach((era, i) => {
+          const x = startX + (i * stepX);
+          const romanceH = (era.romance / 100) * totalHeight;
+          const danceH = (era.dance / 100) * totalHeight;
+
+          const romanceY = 400 - romanceH;
+          rc.rectangle(x, romanceY, barWidth, romanceH, {
+            fill: "#181514",
+            fillStyle: "hachure",
+            fillWeight: 2.2,
+            hachureAngle: -40,
+            hachureGap: 4.5,
+            stroke: "#181514",
+            strokeWidth: 2.5,
+            roughness: 2.0
+          });
+
+          const danceY = romanceY - danceH;
+          rc.rectangle(x, danceY, barWidth, danceH, {
+            fill: "#e05780",
+            fillStyle: "hachure",
+            fillWeight: 2.2,
+            hachureAngle: 50,
+            hachureGap: 4.5,
+            stroke: "#c93b68",
+            strokeWidth: 2.5,
+            roughness: 2.0
+          });
+
+          drawPillText(era.dance + "%", x + barWidth/2, danceY + (danceH / 2));
+          drawPillText(era.romance + "%", x + barWidth/2, romanceY + (romanceH / 2));
+
+          ctx.font = "800 15px 'Space Mono'";
+          ctx.fillStyle = "#181514";
+          ctx.fillText(era.label, x + 26, 430);
+        });
+
+        rc.line(70, 400, 830, 400, { stroke: "#181514", strokeWidth: 3, roughness: 1.5 });
+      }
+    }
+
+    // ACT V AUDIO PLAYER ENGINE
+    const songCatalog = [
+      { title: "Jaane Kahan Mera Jigar", artist: "Mohammed Rafi & Geeta Dutt", era: "1955–1964", file: "assets/audio/jaane_kahan_mera_jigar.mp3" },
+      { title: "Aaj Phir Jeene Ki Tamanna", artist: "Lata Mangeshkar", era: "1965–1974", file: "assets/audio/aaj_phir_jeene_ki_tamanna_hai.mp3" },
+      { title: "Tum Aa Gaye Ho Noor", artist: "Kishore Kumar & Lata Mangeshkar", era: "1975–1984", file: "assets/audio/tum_aa_gaye_ho.mp3" },
+      { title: "Roz Roz Aankhon Tale", artist: "Asha Bhosle & Amit Kumar", era: "1985–1994", file: "assets/audio/roj_roj_aankhon_tale.mp3" },
+      { title: "Tu Hi Re", artist: "Hariharan • Bombay", era: "1995–2004", file: "assets/audio/tu_hi_re.mp3" },
+      { title: "Aankhon Mein Teri", artist: "KK • Om Shanti Om", era: "2005–2014", file: "assets/audio/aankhon_mein_teri_ajab_si.mp3" },
+      { title: "Mohe Rang Do Laal", artist: "Shreya Ghoshal & Pt. Birju Maharaj", era: "2015–2025", file: "assets/audio/mohe_rang_do_laal.mp3" }
+    ];
+
+    let activeAudio = new Audio();
+    activeAudio.volume = 0.9;
+    let currentIdx = 0;
+
+    const erasEls = document.querySelectorAll(".bp-era");
+    const playBtns = document.querySelectorAll(".bp-play");
+    const songCards = document.querySelectorAll(".bp-song-card");
+
+    function updateDeckDisplay(idx) {
+      const track = songCatalog[idx];
+      const titleEl = document.getElementById("deck-title-text");
+      const subEl = document.getElementById("deck-sub-text");
+      if (titleEl) titleEl.innerText = track.title;
+      if (subEl) subEl.innerText = track.era + " • " + track.artist;
+
+      erasEls.forEach((era, i) => {
+        if (i === idx) era.classList.add("active");
+        else era.classList.remove("active");
+      });
+    }
+
+    function togglePlayTrack(idx) {
+      const track = songCatalog[idx];
+      const deckBtn = document.getElementById("deck-play-toggle");
+      const deckDisc = document.getElementById("deck-disc-visual");
+
+      // Pause current track
+      if (currentIdx === idx && activeAudio.src && !activeAudio.paused) {
+        activeAudio.pause();
+        if (deckBtn) deckBtn.innerText = "▶";
+        if (deckDisc) deckDisc.classList.remove("playing");
+        erasEls.forEach(e => e.classList.remove("playing-track"));
+        playBtns.forEach(btn => btn.innerText = "▶");
+        return;
+      }
+
+      // Resume current track
+      if (currentIdx === idx && activeAudio.src && activeAudio.paused) {
+        activeAudio.play().then(() => {
+          if (deckBtn) deckBtn.innerText = "⏸";
+          if (deckDisc) deckDisc.classList.add("playing");
+          if (erasEls[idx]) erasEls[idx].classList.add("playing-track");
+          if (playBtns[idx]) playBtns[idx].innerText = "⏸";
+        });
+        return;
+      }
+
+      // New track
+      currentIdx = idx;
+      updateDeckDisplay(idx);
+
+      activeAudio.pause();
+      activeAudio.src = track.file;
+      activeAudio.load();
+
+      activeAudio.play().then(() => {
+        if (deckBtn) deckBtn.innerText = "⏸";
+        if (deckDisc) deckDisc.classList.add("playing");
+        erasEls.forEach((e, i) => {
+          if (i === idx) e.classList.add("playing-track");
+          else e.classList.remove("playing-track");
+        });
+        playBtns.forEach((btn, i) => {
+          btn.innerText = (i === idx) ? "⏸" : "▶";
+        });
+      }).catch(err => {
+        if (!activeAudio.src.includes("../assets/audio/")) {
+          activeAudio.src = "../" + track.file;
+          activeAudio.play().catch(e => console.error("Path error:", e));
+        }
+      });
+    }
+
+    songCards.forEach(card => {
+      card.addEventListener("click", function(e) {
+        e.stopPropagation();
+        togglePlayTrack(Number(this.dataset.index));
+      });
+    });
+
+    playBtns.forEach(btn => {
+      btn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        togglePlayTrack(Number(this.dataset.index));
+      });
+    });
+
+    window.toggleDeckPlay = function() {
+      togglePlayTrack(currentIdx);
+    };
+
+    window.playNextTrack = function() {
+      const nextIdx = (currentIdx + 1) % songCatalog.length;
+      togglePlayTrack(nextIdx);
+    };
+
+    activeAudio.onended = function() {
+      window.playNextTrack();
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderAllCharts();
+      updateDeckDisplay(0);
+    });
+  </script>
+
+  <script>
+    // Audio engine directly triggered by card clicks
+    let currentEraAudio = null;
+    let playingIdx = -1;
+
+    function toggleEraTrack(idx) {
+      const card = songCards[idx];
+      const playBtn = playBtns[idx];
+      const eraEl = erasEls[idx];
+      const track = songCatalog[idx];
+
+      // Pause if already playing this track
+      if (playingIdx === idx && currentEraAudio && !currentEraAudio.paused) {
+        currentEraAudio.pause();
+        playBtn.innerText = "▶";
+        eraEl.classList.remove("playing-track");
+        playingIdx = -1;
+        return;
+      }
+
+      // Resume if same track was paused
+      if (playingIdx === idx && currentEraAudio && currentEraAudio.paused) {
+        currentEraAudio.play();
+        playBtn.innerText = "⏸";
+        eraEl.classList.add("playing-track");
+        return;
+      }
+
+      // Switch to new track
+      if (currentEraAudio) {
+        currentEraAudio.pause();
+        erasEls.forEach(e => e.classList.remove("playing-track"));
+        playBtns.forEach(b => b.innerText = "▶");
+      }
+
+      playingIdx = idx;
+      erasEls.forEach((e, i) => {
+        if (i === idx) e.classList.add("active", "playing-track");
+        else e.classList.remove("active", "playing-track");
+      });
+      playBtn.innerText = "⏸";
+
+      currentEraAudio = new Audio(track.file);
+      currentEraAudio.volume = 0.9;
+      currentEraAudio.play().catch(err => {
+        // Fallback relative directory check
+        currentEraAudio = new Audio("../" + track.file);
+        currentEraAudio.volume = 0.9;
+        currentEraAudio.play().catch(e => console.warn("Playback path error", e));
+      });
+
+      currentEraAudio.onended = () => {
+        playBtn.innerText = "▶";
+        eraEl.classList.remove("playing-track");
+        playingIdx = -1;
+      };
+    }
+
+    // Rebind listeners directly to toggleEraTrack
+    songCards.forEach((card, idx) => {
+      card.onclick = (e) => {
+        e.stopPropagation();
+        toggleEraTrack(idx);
+      };
+    });
+
+    playBtns.forEach((btn, idx) => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        toggleEraTrack(idx);
+      };
+    });
+  </script>
+
+</body>
+</html>

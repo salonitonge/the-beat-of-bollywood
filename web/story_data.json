@@ -1,0 +1,297 @@
+{
+  "duration_trends": [
+    {
+      "decade": "1990s",
+      "mean": 5.18,
+      "median": 5.05,
+      "count": 3
+    },
+    {
+      "decade": "2000s",
+      "mean": 5.43,
+      "median": 5.35,
+      "count": 27
+    },
+    {
+      "decade": "2010s",
+      "mean": 4.75,
+      "median": 4.63,
+      "count": 63
+    },
+    {
+      "decade": "2020s",
+      "mean": 3.79,
+      "median": 3.58,
+      "count": 5
+    }
+  ],
+  "mood_trends": [
+    {
+      "decade": "1990s",
+      "top_moods": {
+        "deep nostalgia": 66.7,
+        "romantic / emotional": 33.3
+      }
+    },
+    {
+      "decade": "2000s",
+      "top_moods": {
+        "deep nostalgia": 63.0,
+        "nostalgic / bollywood classic": 33.3,
+        "romantic / emotional": 3.7
+      }
+    },
+    {
+      "decade": "2010s",
+      "top_moods": {
+        "nostalgic / bollywood classic": 33.3,
+        "chill / emotional": 33.3,
+        "mainstream / upbeat": 22.2
+      }
+    },
+    {
+      "decade": "2020s",
+      "top_moods": {
+        "chill / emotional": 80.0,
+        "romantic / emotional": 20.0
+      }
+    }
+  ],
+  "vocabulary_trends": [
+    {
+      "decade": "1960s",
+      "diversity": 0.658,
+      "urdu_poetic_pct": 0.8,
+      "modern_pop_pct": 0.0,
+      "top_words": [
+        {
+          "word": "dil",
+          "count": 2789
+        },
+        {
+          "word": "nahiin",
+          "count": 1580
+        },
+        {
+          "word": "pyaar",
+          "count": 1569
+        },
+        {
+          "word": "kyaa",
+          "count": 1495
+        },
+        {
+          "word": "mere",
+          "count": 1422
+        }
+      ]
+    },
+    {
+      "decade": "1970s",
+      "diversity": 0.644,
+      "urdu_poetic_pct": 0.56,
+      "modern_pop_pct": 0.05,
+      "top_words": [
+        {
+          "word": "dil",
+          "count": 1533
+        },
+        {
+          "word": "nahiin",
+          "count": 1424
+        },
+        {
+          "word": "kyaa",
+          "count": 1122
+        },
+        {
+          "word": "pyaar",
+          "count": 986
+        },
+        {
+          "word": "mere",
+          "count": 949
+        }
+      ]
+    },
+    {
+      "decade": "1980s",
+      "diversity": 0.659,
+      "urdu_poetic_pct": 0.61,
+      "modern_pop_pct": 0.04,
+      "top_words": [
+        {
+          "word": "dil",
+          "count": 1079
+        },
+        {
+          "word": "nahiin",
+          "count": 941
+        },
+        {
+          "word": "pyaar",
+          "count": 887
+        },
+        {
+          "word": "kyaa",
+          "count": 886
+        },
+        {
+          "word": "ham",
+          "count": 696
+        }
+      ]
+    },
+    {
+      "decade": "1990s",
+      "diversity": 0.657,
+      "urdu_poetic_pct": 0.81,
+      "modern_pop_pct": 0.06,
+      "top_words": [
+        {
+          "word": "dil",
+          "count": 3263
+        },
+        {
+          "word": "pyaar",
+          "count": 1943
+        },
+        {
+          "word": "kyaa",
+          "count": 1770
+        },
+        {
+          "word": "nahiin",
+          "count": 1653
+        },
+        {
+          "word": "mere",
+          "count": 1596
+        }
+      ]
+    },
+    {
+      "decade": "2000s",
+      "diversity": 0.594,
+      "urdu_poetic_pct": 0.99,
+      "modern_pop_pct": 0.1,
+      "top_words": [
+        {
+          "word": "dil",
+          "count": 3184
+        },
+        {
+          "word": "kyaa",
+          "count": 1786
+        },
+        {
+          "word": "pyaar",
+          "count": 1643
+        },
+        {
+          "word": "nahiin",
+          "count": 1587
+        },
+        {
+          "word": "ham",
+          "count": 1268
+        }
+      ]
+    }
+  ],
+  "best_singers": [
+    {
+      "decade": "1960s",
+      "artist": "Mohammed Rafi",
+      "hit_count": 1585
+    },
+    {
+      "decade": "1970s",
+      "artist": "Asha Bhosle",
+      "hit_count": 1597
+    },
+    {
+      "decade": "1980s",
+      "artist": "Asha Bhosle",
+      "hit_count": 1570
+    },
+    {
+      "decade": "1990s",
+      "artist": "Alka Yagnik",
+      "hit_count": 1012
+    },
+    {
+      "decade": "2000s",
+      "artist": "Alka Yagnik",
+      "hit_count": 695
+    },
+    {
+      "decade": "2010s",
+      "artist": "Shreya Ghoshal",
+      "hit_count": 338
+    },
+    {
+      "decade": "2020s",
+      "artist": "Arijit Singh",
+      "hit_count": 160
+    }
+  ],
+  "best_songs": [
+    {
+      "decade": "1960s",
+      "song_title": "Awara Ae Mere Dil (Fast)",
+      "album": "Raat Aur Din",
+      "rating": 5.0,
+      "singers": "Lata Mangeshkar",
+      "year": 1967
+    },
+    {
+      "decade": "1970s",
+      "song_title": "Sarakti Jaye Hai Rukh Se Naqab Ahista Ahista",
+      "album": "The Unforgettables",
+      "rating": 5.0,
+      "singers": "Jagjit Singh",
+      "year": 1976
+    },
+    {
+      "decade": "1980s",
+      "song_title": "Har Kisiko Nahin Milta Yahan Pyar Zindagi Mein",
+      "album": "Janbaaz",
+      "rating": 5.0,
+      "singers": "Sadhna Sargam, Manhar Udhas",
+      "year": 1986
+    },
+    {
+      "decade": "1990s",
+      "song_title": "Chaand Taare Tod Laoon (Jo Bhi Chahoon Woh Main Paoon)",
+      "album": "Yes Boss",
+      "rating": 5.0,
+      "singers": "Abhijeet",
+      "year": 1997
+    },
+    {
+      "decade": "2000s",
+      "song_title": "Kabhi Kabhi Aditi Zindagi",
+      "album": "Jaane Tu Ya Jaane Na",
+      "rating": 5.0,
+      "singers": "Rashid Ali",
+      "year": 2008
+    },
+    {
+      "decade": "2010s",
+      "song_title": "Tum Ho Paas Mere",
+      "album": "Rockstar",
+      "rating": 5.0,
+      "singers": "Mohit Chauhan, Suzanne D'Mello",
+      "year": 2011
+    },
+    {
+      "decade": "2020s",
+      "song_title": "Sajni",
+      "album": "Laapataa Ladies",
+      "rating": 5.0,
+      "singers": "Arijit Singh",
+      "year": 2024
+    }
+  ]
+}
