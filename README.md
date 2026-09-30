@@ -30,7 +30,7 @@ An website that shows how Bollywood music changed over 70 years (1950s to 2020s)
 
 ## Dataset Used
 
-* **57,000+ Songs:** Master list covering almost every commercial Bollywood song made since 1950 (~80–85% of Bollywood history).
+* **57,000+ Songs:** Master list covering almost every commercial Bollywood song made since 1950.
 * **6,671 Full Lyrics:** Cleaned text files used to analyze language and word trends.
 * **400 MB Audio Features:** Sound data measuring tempo, energy, and danceability.
 * **Built With:** HTML, CSS, JavaScript, D3.js charts, and hosted on Vercel.
